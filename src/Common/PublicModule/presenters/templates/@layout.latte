@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    {control metaTags}
+
+    {control metaTitle}
+
+    {block styles}
+        {if $debugMode === true}
+            <link rel="stylesheet" href="{$basePath}/assets/css/public-bootstrap.css?v={$assetsVersion}">
+            <link rel="stylesheet" href="{$basePath}/assets/css/public.css?v={$assetsVersion}">
+        {else}
+            <link rel="stylesheet" href="{$basePath}/assets/css/public.min.css?v={$assetsVersion}">
+        {/if}
+    {/block}
+</head>
+<body>
+
+    {include #content}
+
+    {block scripts}
+        <script type="text/javascript" src="{$basePath}/assets/js/js.min.js?v={$assetsVersion}"></script>
+    {/block}
+</body>
+</html>

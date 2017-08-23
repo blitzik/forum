@@ -1,0 +1,18 @@
+parameters:
+
+	database:
+		host: 127.0.0.1
+		user: root
+		password: asqw
+		dbname: forum
+
+
+common:
+	imagesPath: assets/images
+	debugMode: true
+
+
+services:
+	nette.mailer:
+		class: Nette\Mail\IMailer
+		factory: Nextras\MailPanel\FileMailer(%tempDir%/mail-panel-mails)

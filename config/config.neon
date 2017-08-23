@@ -1,0 +1,52 @@
+includes:
+	- parameters.neon
+	- extensions.neon
+	- services.neon
+
+
+application:
+	errorPresenter: Error
+	mapping:
+		*: Common\*Module\Presenters\*Presenter
+
+
+session:
+	expiration: 14 days
+	savePath: %appDir%/temp/sessions
+	name: forum
+
+
+tracy:
+	bar:
+		- Nextras\MailPanel\MailPanel(%tempDir%/mail-panel-latte)
+
+
+monolog:
+	name: forum
+
+
+console:
+	application: false
+
+
+doctrine:
+	defaultRepositoryClassName: Kdyby\Doctrine\EntityRepository
+
+	host: %database.host%
+	user: %database.user%
+	password: %database.password%
+	dbname: %database.dbname%
+
+	types:
+		'date_immutable': VasekPurchart\Doctrine\Type\DateTimeImmutable\DateImmutableType
+		'datetime_immutable': VasekPurchart\Doctrine\Type\DateTimeImmutable\DateTimeImmutableType
+		'time_immutable': VasekPurchart\Doctrine\Type\DateTimeImmutable\TimeImmutableType
+
+
+decorator:
+	Common\Components\BaseControl:
+		setup:
+			- injectFlashMessagesFactory(@Common\Components\IFlashMessagesControlFactory)
+			- injectFlashMessagesTranslator(@Nette\Localization\ITranslator)
+			- setAuthorizator(@Nette\Security\IAuthorizator)
+			- setUser(@security.user)

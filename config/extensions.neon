@@ -1,0 +1,18 @@
+extensions:
+	console: Kdyby\Console\DI\ConsoleExtension
+	events: Kdyby\Events\DI\EventsExtension
+	annotations: Kdyby\Annotations\DI\AnnotationsExtension
+	doctrine: Kdyby\Doctrine\DI\OrmExtension
+	monolog: Kdyby\Monolog\DI\MonologExtension
+
+	router: blitzik\Router\DI\RouterExtension
+	dbrouting: blitzik\Routing\DI\DatabaseRoutingExtension
+	fixtures: blitzik\Fixtures\DI\FixturesExtension
+	authorization: blitzik\Authorization\DI\AuthorizationExtension
+
+	common: Common\DI\CommonExtension
+	identity: Identity\DI\IdentityExtension
+	account: Account\DI\AccountExtension
+	category: Category\DI\CategoryExtension
+	topic: Topic\DI\TopicExtension
+	forum: Forum\DI\ForumExtension

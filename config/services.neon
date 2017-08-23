@@ -1,0 +1,8 @@
+services:
+	nette.latteFactory:
+		setup:
+			- addFilter(relativeTime, @relativeTimeFilter)
+
+
+	# latte filters
+	relativeTimeFilter: blitzik\Latte\Filters\RelativeTimeFilter

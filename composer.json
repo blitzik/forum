@@ -1,0 +1,26 @@
+{
+	"name": "blitzik/forum",
+	"description": "Simple Forum based on Nette Framework",
+	"type": "project",
+	"license": ["MIT"],
+	"require": {
+		"nette/application": "^2.4",
+		"nette/di": "^2.4",
+		"nette/bootstrap": "^2.4",
+		"latte/latte": "^2.4",
+		"nette/security": "^2.4",
+		"nette/safe-stream": "^2.3",
+		"tracy/tracy": "^2.4",
+		"nette/mail": "^2.4",
+		"kdyby/doctrine": "dev-master",
+		"doctrine/data-fixtures": "^1.2",
+		"kdyby/events": "^3.1",
+		"nextras/mail-panel": "^2.3",
+		"blitzik/authorization": "dev-master",
+		"blitzik/router": "dev-master",
+		"blitzik/fixtures": "dev-master",
+		"kdyby/monolog": "^1.3",
+		"blitzik/dbrouting": "dev-master",
+		"vasek-purchart/doctrine-date-time-immutable-types": "^1.0"
+	}
+}

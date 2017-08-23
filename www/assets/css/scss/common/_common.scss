@@ -1,0 +1,49 @@
+
+@import "../../../../../bower_components/bootstrap/scss/variables";
+
+.margin-bottom-sm{
+  margin-bottom: 5px;
+}
+
+.margin-bottom-md{
+  margin-bottom: 10px;
+}
+
+.alert {
+  display: table;
+  width: 100%;
+
+  i, img {
+    width: 27px;
+    height: 27px;
+  }
+}
+
+a {
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+a.btn {
+  text-decoration: none;
+}
+
+
+.icon-container,
+.message-container{
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.icon-container{
+  padding-right: 10px;
+}
+
+
+[class^="icon-"]{
+  width: 27px;
+  height: 27px;
+}
