@@ -53,6 +53,13 @@ class Account
     private $password;
 
     /**
+     * @ORM\ManyToOne(targetEntity="blitzik\Authorization\Role")
+     * @ORM\JoinColumn(name="role", referencedColumnName="id", nullable=false)
+     * @var Role
+     */
+    private $role;
+
+    /**
      * @ORM\Column(name="token", type="string", length=32, nullable=true, unique=false, options={"fixed": true})
      * @var string
      */
@@ -69,13 +76,19 @@ class Account
      * @var \DateTimeImmutable
      */
     private $closedUntil;
+    
+    /**
+     * @ORM\Column(name="registered", type="datetime_immutable", nullable=false, unique=false)
+     * @var \DateTimeImmutable
+     */
+    private $registered;
 
     /**
-     * @ORM\ManyToOne(targetEntity="blitzik\Authorization\Role")
-     * @ORM\JoinColumn(name="role", referencedColumnName="id", nullable=false)
-     * @var Role
+     * @ORM\Column(name="number_of_posts", type="integer", nullable=false, unique=false)
+     * @var int
      */
-    private $role;
+    private $numberOfPosts;
+    
 
 
     public function __construct(
@@ -88,6 +101,8 @@ class Account
         $this->setEmail($email);
         $this->changePassword($plainPassword);
         $this->closedUntil = null;
+        $this->registered = new \DateTimeImmutable('now');
+        $this->numberOfPosts = 0;
 
         $this->role = $role;
     }
