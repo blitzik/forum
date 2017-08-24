@@ -15,4 +15,5 @@ extensions:
 	account: Account\DI\AccountExtension
 	category: Category\DI\CategoryExtension
 	topic: Topic\DI\TopicExtension
+	post: Post\DI\PostExtension
 	forum: Forum\DI\ForumExtension

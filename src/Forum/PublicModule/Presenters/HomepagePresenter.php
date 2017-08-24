@@ -2,18 +2,16 @@
 
 namespace Forum\PublicModule\Presenters;
 
-use Common\Presenters\AppPresenter;
+use Common\AuthModule\Presenters\PublicPresenter;
 
-final class HomepagePresenter extends AppPresenter
+final class HomepagePresenter extends PublicPresenter
 {
     public function actionDefault()
     {
-        
     }
 
 
     public function renderDefault()
     {
-
     }
 }

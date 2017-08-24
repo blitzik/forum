@@ -19,7 +19,7 @@ class NullTranslator implements ITranslator
      */
     function translate($message, $count = null): string
     {
-        return $message;
+        return $message === null ? '' : $message;
     }
 
 }

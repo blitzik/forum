@@ -1,4 +1,9 @@
-.flash{
+#flashes{
+  margin: 0;
+  padding: 0;
+}
+
+.nittro-flash{
   padding: 10px 15px;
   margin-bottom: 5px;
   display: table;
@@ -9,25 +14,25 @@
     height: 27px;
   }
 
-  &.info{
+  &.nittro-flash-info{
     color: #31708f;
     background-color: #d9edf7;
     border: 1px solid darken(#d9edf7, 7%);
   }
 
-  &.success{
+  &.nittro-flash-success{
     color: #3c763d;
     background-color: #dff0d8;
     border: 1px solid darken(#dff0d8, 5%);
   }
 
-  &.warning{
+  &.nittro-flash-warning{
     color: #8a6d3b;
     background-color: #fcf8e3;
     border: 1px solid darken(#fcf8e3, 15%);
   }
 
-  &.error{
+  &.nittro-flash-error{
     color: #a94442;
     background-color: #f2dede;
     border: 1px solid darken(#f2dede, 5%);

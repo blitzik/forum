@@ -16,6 +16,11 @@ session:
 	name: forum
 
 
+latte:
+	macros:
+		- Nittro\Bridges\NittroLatte\NittroMacros
+
+
 tracy:
 	bar:
 		- Nextras\MailPanel\MailPanel(%tempDir%/mail-panel-latte)

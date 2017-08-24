@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
     {control metaTags}
-
     {control metaTitle}
 
     {block styles}
         {if $debugMode === true}
             <link rel="stylesheet" href="{$basePath}/assets/css/public-bootstrap.css?v={$assetsVersion}">
+            <link rel="stylesheet" href="{$basePath}/assets/css/nittro.min.css?v={$assetsVersion}">
             <link rel="stylesheet" href="{$basePath}/assets/css/public.css?v={$assetsVersion}">
-        {else}
+    {else}
             <link rel="stylesheet" href="{$basePath}/assets/css/public.min.css?v={$assetsVersion}">
         {/if}
+
+        <script type="text/javascript" src="{$basePath}/assets/js/original/nittro.min.js?v={$assetsVersion}" async defer></script>
     {/block}
 </head>
 <body>
@@ -19,7 +21,11 @@
     {include #content}
 
     {block scripts}
-        <script type="text/javascript" src="{$basePath}/assets/js/js.min.js?v={$assetsVersion}"></script>
+        {if $debugMode === true}
+
+        {else}
+            <script type="text/javascript" src="{$basePath}/assets/js/js.min.js?v={$assetsVersion}"></script>
+        {/if}
     {/block}
 </body>
 </html>

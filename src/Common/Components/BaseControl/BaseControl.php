@@ -49,23 +49,4 @@ abstract class BaseControl extends Control
         return $comp;
     }
 
-
-    public function refresh($redirect, array $snippets = null): void
-    {
-        if ($this->presenter->isAjax()) {
-            if ($snippets === null or empty($snippets)) {
-                $this->redrawControl();
-            } else {
-                foreach ($snippets as $snippet) {
-                    $this->redrawControl($snippet);
-                }
-            }
-        }
-
-        if (!$this->presenter->isAjax()) {
-            $this->redirect($redirect);
-        }
-    }
-
-
 }

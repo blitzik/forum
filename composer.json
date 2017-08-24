@@ -21,6 +21,8 @@
 		"blitzik/fixtures": "dev-master",
 		"kdyby/monolog": "^1.3",
 		"blitzik/dbrouting": "dev-master",
-		"vasek-purchart/doctrine-date-time-immutable-types": "^1.0"
+		"vasek-purchart/doctrine-date-time-immutable-types": "^1.0",
+		"nette/forms": "^2.4",
+		"nittro/nette-bridges": "^2.0"
 	}
 }

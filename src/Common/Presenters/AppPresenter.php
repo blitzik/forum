@@ -8,6 +8,7 @@ use Common\Components\IMetaTitleControlFactory;
 use Common\Components\IPageTitleControlFactory;
 use Common\Components\IMetaTagsControlFactory;
 use Common\Components\FlashMessagesControl;
+use Nittro\Bridges\NittroUI\PresenterUtils;
 use Common\Components\MetaTitleControl;
 use Common\Components\PageTitleControl;
 use Common\Components\MetaTagsControl;
@@ -15,6 +16,9 @@ use Nette\Application\UI\Presenter;
 
 abstract class AppPresenter extends Presenter
 {
+    use PresenterUtils;
+
+
     /**
      * @var IFlashMessagesControlFactory
      * @inject
@@ -46,11 +50,42 @@ abstract class AppPresenter extends Presenter
     public $authorizator;
 
 
+    protected function startup()
+    {
+        parent::startup();
+
+        // Only redraw default snippets if nobody is receiving a signal
+        $this->setRedrawDefault($this->getSignal() === NULL);
+    }
+
+
     protected function beforeRender(): void
     {
         parent::beforeRender();
 
         $this->template->assetsVersion = '001';
+    }
+
+
+    protected function afterRender()
+    {
+        parent::afterRender();
+
+        if ($this->isAjax()) {
+            // Redraw default snippets if enabled
+            $this->redrawDefault();
+        } else {
+            $this->template->flashSession = $this->exportFlashSession();
+        }
+    }
+
+
+    public function sendPayload()
+    {
+        // Send flash messages in payload
+        $this->payload->flashes = $this->exportFlashSession();
+
+        parent::sendPayload();
     }
 
 
@@ -77,23 +112,5 @@ abstract class AppPresenter extends Presenter
     protected function createComponentPageTitle(): PageTitleControl
     {
         return $this->pageTitleControlFactory->create();
-    }
-
-
-    public function refresh($redirect, array $snippets = null): void
-    {
-        if ($this->isAjax()) {
-            if (empty($snippets)) {
-                $this->redrawControl();
-            } else {
-                foreach ($snippets as $snippet) {
-                    $this->redrawControl($snippet);
-                }
-            }
-        }
-
-        if (!$this->isAjax()) {
-            $this->redirect($redirect);
-        }
     }
 }

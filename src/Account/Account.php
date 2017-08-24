@@ -108,6 +108,16 @@ class Account
     }
 
 
+    public function updateTotalNumberOfPostsBy(int $i): void
+    {
+        $r = $this->numberOfPosts + $i;
+        if ($r < 0) {
+            $r = 0;
+        }
+        $this->numberOfPosts = $r;
+    }
+
+
     public function deactivate(\DateTimeImmutable $until): void
     {
         if ($until < (\DateTimeImmutable::createFromFormat('Y-m-d', date('Y-m-d')))) {

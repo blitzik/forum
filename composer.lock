@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "db68cbbfce5abdbf090f8ee02061afda",
+    "content-hash": "c114428e5e45cb9197d55552d3ee7b0e",
     "packages": [
         {
             "name": "blitzik/authorization",
@@ -1877,6 +1877,66 @@
             "time": "2017-07-10T23:47:08+00:00"
         },
         {
+            "name": "nette/forms",
+            "version": "v2.4.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nette/forms.git",
+                "reference": "85eedf22e1a6ae58fb79b6fc0119d22035163386"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nette/forms/zipball/85eedf22e1a6ae58fb79b6fc0119d22035163386",
+                "reference": "85eedf22e1a6ae58fb79b6fc0119d22035163386",
+                "shasum": ""
+            },
+            "require": {
+                "nette/component-model": "~2.3",
+                "nette/http": "^2.3.8",
+                "nette/utils": "^2.4.6",
+                "php": ">=5.6.0"
+            },
+            "conflict": {
+                "nette/nette": "<2.2"
+            },
+            "require-dev": {
+                "latte/latte": "~2.4",
+                "nette/di": "~2.4",
+                "nette/tester": "~2.0",
+                "tracy/tracy": "^2.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause",
+                "GPL-2.0",
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "David Grudl",
+                    "homepage": "https://davidgrudl.com"
+                },
+                {
+                    "name": "Nette Community",
+                    "homepage": "https://nette.org/contributors"
+                }
+            ],
+            "description": "Nette Forms: greatly facilitates web forms",
+            "homepage": "https://nette.org",
+            "time": "2017-07-13T16:49:47+00:00"
+        },
+        {
             "name": "nette/http",
             "version": "v2.4.6",
             "source": {
@@ -2480,6 +2540,44 @@
                 "mailpanel"
             ],
             "time": "2016-06-08T09:45:07+00:00"
+        },
+        {
+            "name": "nittro/nette-bridges",
+            "version": "v2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nittro/nette-bridges.git",
+                "reference": "47bbf3625f37a646486b7fb11986fde29d930272"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nittro/nette-bridges/zipball/47bbf3625f37a646486b7fb11986fde29d930272",
+                "reference": "47bbf3625f37a646486b7fb11986fde29d930272",
+                "shasum": ""
+            },
+            "require-dev": {
+                "latte/latte": "^2.4",
+                "nette/application": "^2.4"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dan Kadera",
+                    "email": "me@subsonic.cz"
+                }
+            ],
+            "description": "Nittro PHP bridges",
+            "homepage": "https://www.nittro.org/",
+            "time": "2017-07-19T15:50:32+00:00"
         },
         {
             "name": "psr/log",

@@ -1,20 +1,25 @@
-.form-errors {
+.form-errors{
   margin: 0;
   padding: 0;
-}
 
-.form-error {
-  list-style-type: none;
-  padding: 10px 15px;
-  margin-bottom: 5px;
-  color: #8a6d3b;
-  background-color: #fcf8e3;
-  border: 1px solid darken(#fcf8e3, 15%);
-  display: table;
-  width: 100%;
+  &:empty{
+    margin: 0;
+    padding: 0;
+  }
 
-  img{
-    width: 27px;
-    height: 27px;
+  .error{
+    list-style-type: none;
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border: 1px solid darken(#fcf8e3, 15%);
+    display: table;
+    width: 100%;
+
+    img{
+      width: 27px;
+      height: 27px;
+    }
   }
 }
