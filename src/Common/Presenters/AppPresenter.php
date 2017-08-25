@@ -13,6 +13,7 @@ use Common\Components\MetaTitleControl;
 use Common\Components\PageTitleControl;
 use Common\Components\MetaTagsControl;
 use Nette\Application\UI\Presenter;
+use Setting\Facades\SettingFacade;
 
 abstract class AppPresenter extends Presenter
 {
@@ -44,10 +45,20 @@ abstract class AppPresenter extends Presenter
     public $metaTagsControlFactory;
 
     /**
+     * @var SettingFacade
+     * @inject
+     */
+    public $settingFacade;
+
+    /**
      * @var Authorizator
      * @inject
      */
     public $authorizator;
+
+
+    /** @var array */
+    protected $globalSettings = [];
 
 
     protected function startup()
@@ -56,6 +67,7 @@ abstract class AppPresenter extends Presenter
 
         // Only redraw default snippets if nobody is receiving a signal
         $this->setRedrawDefault($this->getSignal() === NULL);
+        $this->globalSettings = $this->settingFacade->getAllSettings();
     }
 
 
@@ -64,6 +76,7 @@ abstract class AppPresenter extends Presenter
         parent::beforeRender();
 
         $this->template->assetsVersion = '001';
+        $this->template->globalSettings = $this->globalSettings;
     }
 
 

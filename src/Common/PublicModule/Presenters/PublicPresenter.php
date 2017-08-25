@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Common\AuthModule\Presenters;
+namespace Common\PublicModule\Presenters;
 
 use Common\Presenters\AppPresenter;
 
@@ -12,7 +12,7 @@ abstract class PublicPresenter extends AppPresenter
             return null;
         }
 
-        return __DIR__ . '/templates/@layout.latte';
+        return __DIR__ . '/Templates/@layout.latte';
     }
 
 }

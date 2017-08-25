@@ -9,13 +9,14 @@ use Doctrine\ORM\Mapping\Index;
 use Nette\Utils\Validators;
 use Category\Category;
 use Account\Account;
+use Topic\Topic;
 
 /**
  * @ORM\Entity
  * @ORM\Table(
  *     name="post",
  *     indexes={
- *         @Index(name="category_created_at", columns={"category", "created_at"})
+ *         @Index(name="topic_created_at", columns={"topic", "created_at"})
  *     }
  * )
  */
@@ -25,18 +26,18 @@ class Post
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="\Category\Category")
-     * @ORM\JoinColumn(name="category", referencedColumnName="id", nullable=false)
-     * @var \Category\Category
+     * @ORM\ManyToOne(targetEntity="\Topic\Topic")
+     * @ORM\JoinColumn(name="topic", referencedColumnName="id", nullable=true)
+     * @var Topic
      */
-    private $category;
+    private $topic;
     
     /**
      * @ORM\ManyToOne(targetEntity="\Account\Account")
-     * @ORM\JoinColumn(name="owner", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="author", referencedColumnName="id", nullable=false)
      * @var \Account\Account
      */
-    private $owner;
+    private $author;
 
     /**
      * @ORM\Column(name="created_at", type="datetime_immutable", nullable=false, unique=false)
@@ -52,13 +53,26 @@ class Post
     
      
     public function __construct(
-        Account $owner,
-        Category $category,
+        Account $author,
         string $text
     ) {
-        $this->owner = $owner;
-        $this->category = $category;
+        $this->author = $author;
+        $this->updateText($text);
         $this->createdAt = new \DateTimeImmutable('now');
+    }
+
+
+    public function changeTopic(Topic $topic): void
+    {
+        if ($this->topic === null or $this->topic->getId() !== $topic->getId()) {
+            if ($this->topic !== null) {
+                $this->topic->updateTotalNumberOfPostsBy(-1);
+            }
+            $this->topic = $topic;
+            $topic->updateTotalNumberOfPostsBy(1);
+            $topic->changeLastPost($this);
+
+        }
     }
 
 
@@ -75,20 +89,22 @@ class Post
     }
 
 
-    public function getDateOfCreation(): \DateTimeImmutable
+    public function getCreationTime(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
 
-    public function getCategoryName(): string
-    {
-        return $this->category->getTitle();
-    }
+    /*
+     * --------------------------
+     * ----- AUTHOR GETTERS -----
+     * --------------------------
+     */
 
 
-    public function getPanelTitle(): string
+    public function getAuthorName(): string
     {
-        return $this->category->getPanelTitle();
+        return $this->author->getName();
     }
+
 }

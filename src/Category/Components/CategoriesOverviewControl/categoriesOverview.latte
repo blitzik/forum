@@ -1,0 +1,35 @@
+
+<div class="overview">
+{foreach $sections as $section}
+    <section>
+        <h2>{$section['title']}</h2>
+
+        {foreach $section['categories'] as $category}
+        <div n:class="'item', $iterator->isOdd() ? 'odd' : 'even'">
+            <a href="{plink :Category:Public:Category:default internalId => (string)$category['id']}" class="item-detail">
+                <div class="title">
+                    <span>Name</span>
+                    <span class="title-link">{$category['title']}</span>
+                </div>
+                <div class="description" n:if="!($category['description'] === null or $category['description'] === '')">
+                    {$category['description']}
+                </div>
+            </a>
+
+            <div class="inner-items-amount">
+                <span>Topics</span>
+                {$category['numberOfTopics']}
+            </div>
+
+            <div class="last-post">
+                <span>Last post</span>
+                <a href="">
+                    an hour ago
+                </a> from Consecteteur
+            </div>
+        </div>
+        {/foreach}
+
+    </section>
+{/foreach}
+</div>

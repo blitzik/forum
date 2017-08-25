@@ -10,10 +10,14 @@ use Nette\Utils\Validators;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="panel")
- *
+ * @ORM\Table(
+ *     name="section",
+ *     indexes={
+ *         @Index(name="is_public_position", columns={"is_public", "position"})
+ *     }
+ * )
  */
-class Panel
+class Section
 {
     use Identifier;
 
@@ -28,7 +32,13 @@ class Panel
     private $title;
 
     /**
-     * @ORM\Column(name="position", type="integer", nullable=false, unique=false)
+     * @ORM\Column(name="is_public", type="boolean", nullable=false, unique=false)
+     * @var bool
+     */
+    private $isPublic;
+
+    /**
+     * @ORM\Column(name="position", type="integer", nullable=false, unique=true)
      * @var int
      */
     private $position;
@@ -39,6 +49,25 @@ class Panel
     ) {
         $this->setTitle($title);
         $this->position = 0;
+        $this->isPublic = true;
+    }
+
+
+    public function setAsPrivate(): void
+    {
+        $this->isPublic = false;
+    }
+
+
+    public function setAsPublic(): void
+    {
+        $this->isPublic = false;
+    }
+
+
+    public function isPublic(): bool
+    {
+        return $this->isPublic;
     }
 
 

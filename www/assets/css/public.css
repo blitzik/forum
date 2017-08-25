@@ -46,18 +46,8 @@
       width: 27px;
       height: 27px; }
 
-.margin-bottom-sm {
-  margin-bottom: 5px; }
-
-.margin-bottom-md {
-  margin-bottom: 10px; }
-
-.alert {
-  display: table;
-  width: 100%; }
-  .alert i, .alert img {
-    width: 27px;
-    height: 27px; }
+body {
+  padding: 10px; }
 
 a {
   text-decoration: underline; }
@@ -67,16 +57,92 @@ a {
 a.btn {
   text-decoration: none; }
 
-.icon-container,
-.message-container {
-  display: table-cell;
-  vertical-align: middle; }
+.forum-title h1 {
+  margin-bottom: 50px; }
 
-.icon-container {
-  padding-right: 10px; }
+.overview {
+  min-width: 550px; }
+  .overview section {
+    margin-bottom: 25px;
+    border-bottom: 5px solid #78909c;
+    padding-bottom: 10px; }
+  .overview h2 {
+    font-size: 1.15em;
+    color: #fff;
+    padding: 10px;
+    background-color: #78909c;
+    margin-bottom: 10px; }
+  .overview .item {
+    display: flex;
+    padding: 10px; }
+    .overview .item.odd {
+      background-color: #eceff1;
+      border: 1px solid #eceff1; }
+      .overview .item.odd:hover {
+        border: 1px solid #b7c2ca; }
+    .overview .item.even {
+      background-color: #fff;
+      border: 1px solid #fff; }
+      .overview .item.even:hover {
+        border: 1px solid #b7c2ca; }
+    .overview .item .item-detail,
+    .overview .item .inner-items-amount,
+    .overview .item .last-post {
+      font-size: 1.2em;
+      text-decoration: none; }
+      .overview .item .item-detail span,
+      .overview .item .inner-items-amount span,
+      .overview .item .last-post span {
+        color: #333;
+        font-size: 0.7em;
+        font-weight: bold;
+        display: block; }
+    .overview .item .item-detail {
+      flex: 2 0 55%;
+      padding-right: 10px; }
+      .overview .item .item-detail .description {
+        color: #333;
+        font-size: 0.85em;
+        margin-top: 5px; }
+      .overview .item .item-detail:hover .title-link {
+        text-decoration: underline; }
+    .overview .item .item-detail .title-link {
+      font-size: 1em;
+      color: #0275d8;
+      font-weight: bold; }
+    .overview .item .inner-items-amount {
+      flex: 1 0 20%;
+      text-align: center;
+      display: none; }
+    .overview .item .last-post {
+      flex: 1 0 40%;
+      padding-left: 10px;
+      border-left: 1px solid #b7c2ca; }
 
-[class^="icon-"] {
-  width: 27px;
-  height: 27px; }
+.overview p {
+  margin: 0;
+  text-align: center; }
+
+.info-box {
+  border: 1px solid #78909c;
+  padding: 15px; }
+  .info-box h2 {
+    font-weight: bold;
+    margin-bottom: 25px; }
+
+.bread-crumbs-nav {
+  border: 1px solid #78909c; }
+
+@media (min-width: 768px) {
+  .overview .item .item-detail {
+    flex: 2 0 40%; }
+  .overview .item .inner-items-amount {
+    display: block;
+    flex: 1 0 15%;
+    border-left: 1px solid #b7c2ca;
+    border-right: 1px solid #b7c2ca; }
+  .overview .item .last-post {
+    flex: 2 0 40%;
+    border: 0; } }
 
 /*# sourceMappingURL=public.css.map */

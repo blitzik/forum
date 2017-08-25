@@ -7,11 +7,16 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\Utils\Validators;
+use Post\Post;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="category")
- *
+ * @ORM\Table(
+ *     name="category",
+ *     indexes={
+ *         @Index(name="is_public_position", columns={"is_public", "position"})
+ *     }
+ * )
  */
 class Category
 {
@@ -19,15 +24,15 @@ class Category
 
 
     const LENGTH_TITLE = 150;
-    const LENGTH_DESCRIPTION = 300;
+    const LENGTH_DESCRIPTION = 500;
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="Panel")
-     * @ORM\JoinColumn(name="panel", referencedColumnName="id", nullable=false)
-     * @var Panel
+     * @ORM\ManyToOne(targetEntity="Section")
+     * @ORM\JoinColumn(name="section", referencedColumnName="id", nullable=false)
+     * @var Section
      */
-    private $panel;
+    private $section;
 
     /**
      * @ORM\Column(name="title", type="string", length=150, nullable=false, unique=false)
@@ -36,16 +41,29 @@ class Category
     private $title;
 
     /**
-     * @ORM\Column(name="description", type="string", length=300, nullable=false, unique=false)
+     * @ORM\Column(name="description", type="string", length=500, nullable=true, unique=false)
      * @var string
      */
     private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="\Post\Post")
+     * @ORM\JoinColumn(name="last_post", referencedColumnName="id", nullable=true)
+     * @var \Post\Post
+     */
+    private $lastPost;
 
     /**
      * @ORM\Column(name="position", type="integer", nullable=false, unique=false)
      * @var int
      */
     private $position;
+
+    /**
+     * @ORM\Column(name="is_public", type="boolean", nullable=false, unique=false)
+     * @var bool
+     */
+    private $isPublic;
 
     /**
      * @ORM\Column(name="number_of_topics", type="integer", nullable=false, unique=false)
@@ -56,12 +74,37 @@ class Category
      
     public function __construct(
         string $title,
-        Panel $panel
+        Section $section
     ) {
         $this->setTitle($title);
         $this->numberOfTopics = 0;
-        $this->panel = $panel;
+        $this->section = $section;
         $this->position = 0;
+        $this->isPublic = $section->isPublic();
+    }
+
+
+    public function changeLastPost(Post $post): void
+    {
+        $this->lastPost = $post;
+    }
+
+
+    public function setAsPrivate(): void
+    {
+        $this->isPublic = false;
+    }
+
+
+    public function setAsPublic(): void
+    {
+        $this->isPublic = false;
+    }
+
+
+    public function isPublic(): bool
+    {
+        return $this->isPublic;
     }
 
 
@@ -103,15 +146,21 @@ class Category
     }
 
 
-    public function changePanel(Panel $panel): void
+    public function changeSection(Section $panel): void
     {
-        $this->panel = $panel;
+        $this->section = $panel;
     }
 
 
-    public function getPanelTitle(): string
+    public function getSectionTitle(): string
     {
-        return $this->panel->getTitle();
+        return $this->section->getTitle();
+    }
+
+
+    public function getSectionPosition(): int
+    {
+        return $this->section->getPosition();
     }
 
 
@@ -123,5 +172,25 @@ class Category
         }
         $this->numberOfTopics = $r;
     }
+
+
+    /*
+     * -----------------------------
+     * ----- LAST POST GETTERS -----
+     * -----------------------------
+     */
+
+
+    public function getLastPostAuthorName(): string
+    {
+        return $this->lastPost->getAuthorName();
+    }
+
+
+    public function getLastPostCreationTime(): \DateTimeImmutable
+    {
+        return $this->lastPost->getCreationTime();
+    }
+
 
 }

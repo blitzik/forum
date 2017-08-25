@@ -9,7 +9,7 @@
             <link rel="stylesheet" href="{$basePath}/assets/css/public-bootstrap.css?v={$assetsVersion}">
             <link rel="stylesheet" href="{$basePath}/assets/css/nittro.min.css?v={$assetsVersion}">
             <link rel="stylesheet" href="{$basePath}/assets/css/public.css?v={$assetsVersion}">
-    {else}
+        {else}
             <link rel="stylesheet" href="{$basePath}/assets/css/public.min.css?v={$assetsVersion}">
         {/if}
 
@@ -17,8 +17,13 @@
     {/block}
 </head>
 <body>
+    <header class="forum-title">
+        <h1><a href="{plink :Category:Public:Homepage:default}">{$globalSettings['forumTitle']}</a></h1>
+    </header>
 
-    {include #content}
+    <div class="content">
+        {include #content}
+    </div>
 
     {block scripts}
         {if $debugMode === true}

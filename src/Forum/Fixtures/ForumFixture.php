@@ -21,8 +21,8 @@ class ForumFixture extends AbstractFixture
 
     private function loadDefaultUrls(ObjectManager $manager)
     {
-        $ug = new UrlGenerator('Forum:Public:Homepage', $manager);
-        $ug->addUrl('', 'default');
+        //$ug = new UrlGenerator('', $manager);
+        //$ug->addUrl('', '');
     }
 
 

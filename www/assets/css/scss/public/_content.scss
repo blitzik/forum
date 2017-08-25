@@ -1,0 +1,147 @@
+@import "../../../bootstrap/scss/variables";
+
+.forum-title h1{
+  margin-bottom: 50px;
+}
+
+// ----- SECTIONS OVERVIEW -----
+
+.overview{
+  min-width: 550px;
+
+  section{
+    margin-bottom: 25px;
+    border-bottom: 5px solid #78909c;
+    padding-bottom: 10px;
+  }
+
+  h2{
+    font-size: 1.15em;
+    color: #fff;
+    padding: 10px;
+    background-color: #78909c;
+    margin-bottom: 10px;
+  }
+
+  .item{
+    display: flex;
+    padding: 10px;
+
+    &.odd{
+      background-color: #eceff1;
+      border: 1px solid #eceff1;
+
+      &:hover{
+        border: 1px solid darken(#eceff1, 18%);
+      }
+    }
+
+    &.even{
+      background-color: #fff;
+      border: 1px solid #fff;
+
+      &:hover{
+        border: 1px solid darken(#eceff1, 18%);
+      }
+    }
+
+    .item-detail,
+    .inner-items-amount,
+    .last-post{
+      font-size: 1.2em;
+      text-decoration: none;
+
+      span{
+        color: #333;
+        font-size: 0.7em;
+        font-weight: bold;
+        display: block;
+      }
+    }
+
+    .item-detail{
+      flex: 2 0 55%;
+      padding-right: 10px;
+
+      .description{
+        color: #333;
+        font-size: 0.85em;
+        margin-top: 5px;
+      }
+
+      &:hover{
+        .title-link{
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .item-detail .title-link{
+      font-size: 1em;
+      color: $link-color;
+      font-weight: bold;
+    }
+
+    .inner-items-amount{
+      flex: 1 0 20%;
+      text-align: center;
+      display: none;
+    }
+
+    .last-post{
+      flex: 1 0 40%;
+      padding-left: 10px;
+      border-left: 1px solid darken(#eceff1, 18%);
+    }
+  }
+}
+
+.overview p{
+  margin: 0;
+  text-align: center;
+}
+
+
+// ----- TOPICS OVERVIEW -----
+
+
+
+// -----
+
+.info-box{
+  border: 1px solid #78909c;
+  padding: 15px;
+
+  h2{
+    font-weight: bold;
+    margin-bottom: 25px;
+  }
+}
+
+
+.bread-crumbs-nav{
+  border: 1px solid #78909c;
+}
+
+
+@media (min-width: 768px) {
+  .overview{
+    .item{
+      .item-detail{
+        flex: 2 0 40%;
+      }
+
+      .inner-items-amount{
+        display: block;
+        flex: 1 0 15%;
+        border-left: 1px solid darken(#eceff1, 18%);
+        border-right: 1px solid darken(#eceff1, 18%);
+      }
+
+      .last-post{
+        flex: 2 0 40%;
+        border: 0;
+      }
+    }
+  }
+}

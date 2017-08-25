@@ -81,9 +81,9 @@ class AccountFixture extends AbstractFixture
         $manager->persist($member);
         $this->addReference('user_member', $member);
 
-        $moderator = new Account('Consecteteur Eligendi', 'member2@project.cz', 'moderator', $this->getReference('role_moderator'));
+        $moderator = new Account('Consecteteur Eligendi', 'moderator@project.cz', 'moderator', $this->getReference('role_moderator'));
         $manager->persist($moderator);
-        $this->addReference('user_member2', $moderator);
+        $this->addReference('user_moderator', $moderator);
 
         $admin = new Account('Dolor Sit Amet', 'admin@project.cz', 'admin', $this->getReference('role_admin'));
         $manager->persist($admin);

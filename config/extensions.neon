@@ -11,6 +11,7 @@ extensions:
 	authorization: blitzik\Authorization\DI\AuthorizationExtension
 
 	common: Common\DI\CommonExtension
+	setting: Setting\SettingExtension
 	identity: Identity\DI\IdentityExtension
 	account: Account\DI\AccountExtension
 	category: Category\DI\CategoryExtension

@@ -1,0 +1,11 @@
+
+- Category\Facades\SectionFacade
+- Category\Facades\CategoryFacade
+
+categoriesOverviewControlFactory:
+	implement: Category\Components\ICategoriesOverviewControlFactory
+
+topicsOverviewControlFactory:
+	implement: Category\Components\ITopicsOverviewControlFactory
+	parameters: [Category\Category category]
+	arguments: [%category%]

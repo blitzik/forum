@@ -1,0 +1,6 @@
+
+# FACADES
+- Setting\Facades\SettingFacade
+
+
+- Setting\Services\SettingsLoader

@@ -1,0 +1,28 @@
+{extends '../layout.latte'}
+
+{block content}
+
+    {foreach $topics as $topic}
+    <div n:class="'item', $iterator->isOdd() ? 'odd' : 'even'">
+        <a href="{plink :Topic:Public:Topic:default internalId => (string)$topic['id']}" class="item-detail">
+            <div class="title">
+                <span>Name</span>
+                <span class="title-link">{$topic['title']}</span>
+            </div>
+        </a>
+
+        <div class="inner-items-amount">
+            <span>Posts</span>
+            {$topic['numberOfPosts']}
+        </div>
+
+        <div class="last-post">
+            <span>Last post</span>
+            <a href="">
+                an hour ago
+            </a> from Consecteteur
+        </div>
+    </div>
+    {/foreach}
+
+{/block}
