@@ -6,11 +6,6 @@ use Nette\Object;
 
 class TimeAgoInWords extends Object
 {
-    /**
-     * Czech helper time ago in words.
-     * @param  \DateTime|\DateTimeImmutable|string|int
-     * @return string|false
-     */
     public static function get($time)
     {
         if (!$time) {
@@ -29,45 +24,39 @@ class TimeAgoInWords extends Object
         $delta = time() - $time;
         if ($delta < 0) {
             $delta = round(abs($delta) / 60);
-            if ($delta == 0) return 'za okamžik';
-            if ($delta == 1) return 'za minutu';
-            if ($delta < 45) return 'za ' . $delta . ' ' . self::plural($delta, 'minuta', 'minuty', 'minut');
-            if ($delta < 90) return 'za hodinu';
-            if ($delta < 1440) return 'za ' . round($delta / 60) . ' ' . self::plural(round($delta / 60), 'hodina', 'hodiny', 'hodin');
-            if ($delta < 2880) return 'zítra';
-            if ($delta < 43200) return 'za ' . round($delta / 1440) . ' ' . self::plural(round($delta / 1440), 'den', 'dny', 'dní');
-            if ($delta < 86400) return 'za měsíc';
-            if ($delta < 525960) return 'za ' . round($delta / 43200) . ' ' . self::plural(round($delta / 43200), 'měsíc', 'měsíce', 'měsíců');
-            if ($delta < 1051920) return 'za rok';
+            if ($delta == 0) return 'in a while';
+            if ($delta == 1) return 'in a minute';
+            if ($delta < 45) return 'in ' . $delta . ' ' . self::plural($delta, 'minute', 'minutes');
+            if ($delta < 90) return 'in an hour';
+            if ($delta < 1440) return 'in ' . round($delta / 60) . ' ' . self::plural(round($delta / 60), 'hour', 'hours');
+            if ($delta < 2880) return 'tomorrow';
+            if ($delta < 43200) return 'in ' . round($delta / 1440) . ' ' . self::plural(round($delta / 1440), 'day', 'days');
+            if ($delta < 86400) return 'in a month';
+            if ($delta < 525960) return 'in ' . round($delta / 43200) . ' ' . self::plural(round($delta / 43200), 'month', 'months');
+            if ($delta < 1051920) return 'in a year';
 
-            return 'za ' . round($delta / 525960) . ' ' . self::plural(round($delta / 525960), 'rok', 'roky', 'let');
+            return 'in ' . round($delta / 525960) . ' ' . self::plural(round($delta / 525960), 'year', 'years');
         }
 
         $delta = round($delta / 60);
-        if ($delta == 0) return 'před okamžikem';
-        if ($delta == 1) return 'před minutou';
-        if ($delta < 45) return 'před' . $delta . 'minutami';
-        if ($delta < 90) return 'před hodinou';
-        if ($delta < 1440) return 'před ' . round($delta / 60) . ' hodinami';
-        if ($delta < 2880) return 'včera';
-        if ($delta < 43200) return 'před ' . round($delta / 1440) . ' dny';
-        if ($delta < 86400) return 'před měsícem';
-        if ($delta < 525960) return 'před ' . round($delta / 43200) . ' měsíci';
-        if ($delta < 1051920) return 'před rokem';
+        if ($delta == 0) return 'a while ago';
+        if ($delta == 1) return 'a minute ago';
+        if ($delta < 45) return $delta . ' minutes ago';
+        if ($delta < 90) return 'an hour ago';
+        if ($delta < 1440) return round($delta / 60) . ' hours ago';
+        if ($delta < 2880) return 'yesterday';
+        if ($delta < 43200) return round($delta / 1440) . ' days ago';
+        if ($delta < 86400) return 'a month ago';
+        if ($delta < 525960) return round($delta / 43200) . ' months ago';
+        if ($delta < 1051920) return 'a year ago';
 
-        return 'před ' . round($delta / 525960) . ' lety';
+        return round($delta / 525960) . ' years ago';
     }
 
 
-    /**
-     * Plural: three forms, special cases for 1 and 2, 3, 4.
-     * (Slavic family: Slovak, Czech)
-     * @param  int
-     * @return mixed
-     */
     private static function plural($n)
     {
         $args = func_get_args();
-        return $args[($n == 1) ? 1 : (($n >= 2 && $n <= 4) ? 2 : 3)];
+        return $args[($n == 1) ? 1 : 2];
     }
 }

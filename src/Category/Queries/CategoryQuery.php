@@ -37,12 +37,53 @@ class CategoryQuery extends QueryObject
     }
 
 
-    public function withLastPost(): self
+    public function withLastPost(array $onlyFields = []): self
     {
-        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
-            $qb->addSelect(['lp', 'a'])
-               ->leftJoin('c.lastPost', 'lp')
-               ->leftJoin('lp.author', 'a');
+        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($onlyFields) {
+            if (!empty($onlyFields)) {
+                $onlyFields[] = 'id';
+                $onlyFields = array_unique($onlyFields);
+                $qb->addSelect(sprintf('PARTIAL lp.{%s}', implode(',', $onlyFields)));
+            } else {
+                $qb->addSelect('lp');
+            }
+            $qb->leftJoin('c.lastPost', 'lp');
+        };
+
+        return $this;
+    }
+
+
+    public function withLastPostAuthor(array $onlyFields = []): self
+    {
+        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($onlyFields) {
+            if (!empty($onlyFields)) {
+                $onlyFields[] = 'id';
+                $onlyFields = array_unique($onlyFields);
+                $qb->addSelect(sprintf('PARTIAL a.{%s}', implode(',', $onlyFields)));
+            } else {
+                $qb->addSelect('a');
+            }
+
+            $qb->leftJoin('lp.author', 'a');
+        };
+
+        return $this;
+    }
+
+
+    public function withLastPostTopic(array $onlyFields = []): self
+    {
+        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($onlyFields) {
+            if (!empty($onlyFields)) {
+                $onlyFields[] = 'id';
+                $onlyFields = array_unique($onlyFields);
+                $qb->addSelect(sprintf('PARTIAL lpt.{%s}', implode(',', $onlyFields)));
+            } else {
+                $qb->addSelect('lpt');
+            }
+
+            $qb->leftJoin('lp.topic', 'lpt');
         };
 
         return $this;

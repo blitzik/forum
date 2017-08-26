@@ -23,9 +23,12 @@
 
             <div class="last-post">
                 <span>Last post</span>
-                <a href="">
-                    an hour ago
-                </a> from Consecteteur
+                {if $category['lastPost'] !== null}
+                    {var $lastPostTitle = sprintf('Created on %s at %s by %s', $category['lastPost']['createdAt']->format('j. F Y'), $category['lastPost']['createdAt']->format('H:i'), $category['lastPost']['author']['name'])}
+                    <a href="{plink :Topic:Public:Topic:default internalId => (string)$category['lastPost']['topic']['id']}" title="{$lastPostTitle}">{$category['lastPost']['createdAt']|relativeTime}</a> by {$category['lastPost']['author']['name']}
+                {else}
+                    -
+                {/if}
             </div>
         </div>
         {/foreach}

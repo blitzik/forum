@@ -35,6 +35,10 @@ class TopicsOverviewControl extends BaseControl
 
         $q = new TopicQuery();
         $q->byCategory($this->category)
+          ->withAuthor(['name'])
+          ->withLastPost(['createdAt'])
+          ->withLastPostAuthor(['name'])
+          ->withLastPostTopic(['id'])
           ->orderByDateOfCreation('DESC');
 
         $topicsResultSet = $this->topicFacade->findTopics($q);

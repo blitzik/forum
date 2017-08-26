@@ -3,11 +3,15 @@
 {block content}
 
     {foreach $topics as $topic}
+    {var $title = sprintf('Created on %s at %s by %s', $topic['createdAt']->format('j. F Y'), $topic['createdAt']->format('H:i'), $topic['author']['name'])}
     <div n:class="'item', $iterator->isOdd() ? 'odd' : 'even'">
-        <a href="{plink :Topic:Public:Topic:default internalId => (string)$topic['id']}" class="item-detail">
+        <a href="{plink :Topic:Public:Topic:default internalId => (string)$topic['id']}" class="item-detail" title="{$title}">
             <div class="title">
                 <span>Name</span>
                 <span class="title-link">{$topic['title']}</span>
+            </div>
+            <div class="creation-info">
+                {$topic['createdAt']|relativeTime} from <span>{$topic['author']['name']}</span>
             </div>
         </a>
 
@@ -18,9 +22,7 @@
 
         <div class="last-post">
             <span>Last post</span>
-            <a href="">
-                an hour ago
-            </a> from Consecteteur
+            <a href="{plink :Topic:Public:Topic:default internalId => (string)$topic['lastPost']['topic']['id']}">{$topic['lastPost']['createdAt']|relativeTime}</a> by {$topic['lastPost']['author']['name']}
         </div>
     </div>
     {/foreach}

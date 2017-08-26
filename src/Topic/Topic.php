@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\Utils\Validators;
 use Category\Category;
+use Account\Account;
 use Post\Post;
 
 /**
@@ -26,6 +27,13 @@ class Topic
 
     const LENGTH_TITLE = 150;
 
+
+    /**
+     * @ORM\ManyToOne(targetEntity="\Account\Account")
+     * @ORM\JoinColumn(name="author", referencedColumnName="id", nullable=false)
+     * @var Account
+     */
+    private $author;
 
     /**
      * @ORM\ManyToOne(targetEntity="\Category\Category")
@@ -53,7 +61,7 @@ class Topic
     private $numberOfPosts;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\Post\Post")
+     * @ORM\OneToOne(targetEntity="\Post\Post")
      * @ORM\JoinColumn(name="last_post", referencedColumnName="id", nullable=false)
      * @var \Post\Post
      */
@@ -62,10 +70,12 @@ class Topic
      
     public function __construct(
         string $title,
+        Account $author,
         Category $category,
         Post $post
     ) {
         $this->setTitle($title);
+        $this->author = $author;
         $this->category = $category;
         $this->category->updateTotalNumberOfTopicsBy(1);
         $this->numberOfPosts = 0;

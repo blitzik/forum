@@ -27,6 +27,77 @@ class TopicQuery extends QueryObject
     }
 
 
+    public function withAuthor(array $onlyFields = []): self
+    {
+        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($onlyFields) {
+            if (!empty($fields)) {
+                $fields[] = 'id';
+                $fields = array_unique($fields);
+                $qb->addSelect(sprintf('PARTIAL a.{%s}', implode(',', $fields)));
+
+            } else {
+                $qb->addSelect('a');
+            }
+            $qb->innerJoin('t.author', 'a');
+        };
+
+        return $this;
+    }
+
+
+    public function withLastPost(array $onlyLastPostFields = []): self
+    {
+        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($onlyLastPostFields) {
+            if (!empty($onlyLastPostFields)) {
+                $onlyLastPostFields[] = 'id';
+                $onlyLastPostFields = array_unique($onlyLastPostFields);
+                $qb->addSelect(sprintf('PARTIAL lp.{%s}', implode(',', $onlyLastPostFields)));
+            } else {
+                $qb->addSelect('lp');
+            }
+            $qb->leftJoin('t.lastPost', 'lp');
+        };
+
+        return $this;
+    }
+
+
+    public function withLastPostAuthor(array $onlyAuthorFields = []): self
+    {
+        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($onlyAuthorFields) {
+            if (!empty($onlyAuthorFields)) {
+                $onlyAuthorFields[] = 'id';
+                $onlyAuthorFields = array_unique($onlyAuthorFields);
+                $qb->addSelect(sprintf('PARTIAL lpa.{%s}', implode(',', $onlyAuthorFields)));
+            } else {
+                $qb->addSelect('lpa');
+            }
+
+            $qb->leftJoin('lp.author', 'lpa');
+        };
+
+        return $this;
+    }
+
+
+    public function withLastPostTopic(array $onlyFields = []): self
+    {
+        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($onlyFields) {
+            if (!empty($onlyFields)) {
+                $onlyFields[] = 'id';
+                $onlyFields = array_unique($onlyFields);
+                $qb->addSelect(sprintf('PARTIAL lpt.{%s}', implode(',', $onlyFields)));
+            } else {
+                $qb->addSelect('lpt');
+            }
+
+            $qb->leftJoin('lp.topic', 'lpt');
+        };
+
+        return $this;
+    }
+
+
     /**
      * @param Category|int $category
      * @return TopicQuery

@@ -26,7 +26,9 @@ class CategoriesOverviewControl extends BaseControl
 
         $q = new CategoryQuery();
         $q->withSection()
-          ->withLastPost();
+          ->withLastPost(['createdAt', 'topic'])
+          ->withLastPostAuthor(['name'])
+          ->withLastPostTopic(['id']);
         if (!$this->user->isLoggedIn()) {
             $q->onlyPublic();
         }
@@ -54,7 +56,7 @@ class CategoriesOverviewControl extends BaseControl
         $template->sections = $sections;
         unset($sections);
 
-        $template->setFile(__DIR__ . '/categoriesOverview.latte');
+        $template->setFile(__DIR__ . '/overview.latte');
         $template->render();
     }
 }
