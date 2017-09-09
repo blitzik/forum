@@ -6,6 +6,7 @@ use Category\Facades\CategoryFacade;
 use Category\Queries\CategoryQuery;
 use Common\Components\BaseControl;
 use Doctrine\ORM\AbstractQuery;
+use Nette\Utils\ArrayHash;
 
 class CategoriesOverviewControl extends BaseControl
 {
@@ -28,11 +29,8 @@ class CategoriesOverviewControl extends BaseControl
         $q->withSection()
           ->withLastPost(['createdAt', 'topic'])
           ->withLastPostAuthor(['name'])
-          ->withLastPostTopic(['id']);
-        if (!$this->user->isLoggedIn()) {
-            $q->onlyPublic();
-        }
-        $q->orderByPosition();
+          ->withLastPostTopic(['id'])
+          ->orderByPosition();
 
         $categoriesResultSet = $this->categoryFacade->findCategories($q);
         $categories = $categoriesResultSet->toArray(AbstractQuery::HYDRATE_ARRAY);
@@ -53,7 +51,7 @@ class CategoriesOverviewControl extends BaseControl
         }
 
         ksort($sections);
-        $template->sections = $sections;
+        $template->sections = ArrayHash::from($sections);
         unset($sections);
 
         $template->setFile(__DIR__ . '/overview.latte');

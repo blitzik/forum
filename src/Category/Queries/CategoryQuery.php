@@ -90,16 +90,6 @@ class CategoryQuery extends QueryObject
     }
 
 
-    public function onlyPublic(): self
-    {
-        $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
-            $qb->andWhere('c.isPublic = true');
-        };
-
-        return $this;
-    }
-
-
     public function orderByPosition(string $order = 'ASC'): self
     {
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($order) {

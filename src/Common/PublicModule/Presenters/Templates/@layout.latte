@@ -5,13 +5,9 @@
     {control metaTitle}
 
     {block styles}
-        {if $debugMode === true}
-            <link rel="stylesheet" href="{$basePath}/assets/css/public-bootstrap.css?v={$assetsVersion}">
-            <link rel="stylesheet" href="{$basePath}/assets/css/nittro.min.css?v={$assetsVersion}">
-            <link rel="stylesheet" href="{$basePath}/assets/css/public.css?v={$assetsVersion}">
-        {else}
-            <link rel="stylesheet" href="{$basePath}/assets/css/public.min.css?v={$assetsVersion}">
-        {/if}
+        <link rel="stylesheet" href="{$basePath}/assets/css/public-bootstrap.css?v={$assetsVersion}">
+        <link rel="stylesheet" href="{$basePath}/assets/css/nittro.min.css?v={$assetsVersion}">
+        <link rel="stylesheet" href="{$basePath}/assets/css/public.css?v={$assetsVersion}">
 
         <script type="text/javascript" src="{$basePath}/assets/js/original/nittro.min.js?v={$assetsVersion}" async defer></script>
     {/block}
@@ -26,12 +22,12 @@
             {include #content}
         </div>
     </div>
-    {block scripts}
-        {if $debugMode === true}
 
-        {else}
-            <script type="text/javascript" src="{$basePath}/assets/js/js.min.js?v={$assetsVersion}"></script>
-        {/if}
+    {block scripts}
     {/block}
+
+    {snippet flashMessages}
+        <script type="application/json" class="flashes-src">{$flashSession}</script>
+    {/snippet}
 </body>
 </html>

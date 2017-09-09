@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\Utils\Validators;
+use blitzik\Routing\Url;
 use Category\Category;
 use Account\Account;
 use Post\Post;
@@ -27,6 +28,13 @@ class Topic
 
     const LENGTH_TITLE = 150;
 
+
+    /**
+     * @ORM\Column(name="version", type="integer", nullable=false, unique=false)
+     * @ORM\Version
+     * @var int
+     */
+    private $version;
 
     /**
      * @ORM\ManyToOne(targetEntity="\Account\Account")
@@ -62,25 +70,36 @@ class Topic
 
     /**
      * @ORM\OneToOne(targetEntity="\Post\Post")
-     * @ORM\JoinColumn(name="last_post", referencedColumnName="id", nullable=false)
-     * @var \Post\Post
+     * @ORM\JoinColumn(name="last_post", referencedColumnName="id", nullable=true)
+     * @var Post
      */
     private $lastPost;
+
+    /**
+     * @ORM\Column(name="is_public", type="boolean", nullable=false, unique=false)
+     * @var bool
+     */
+    private $isPublic;
     
      
     public function __construct(
         string $title,
         Account $author,
-        Category $category,
-        Post $post
+        Category $category
     ) {
+        $this->version = 1;
         $this->setTitle($title);
         $this->author = $author;
         $this->category = $category;
         $this->category->updateTotalNumberOfTopicsBy(1);
         $this->numberOfPosts = 0;
-        $this->changeLastPost($post);
         $this->createdAt = new \DateTimeImmutable('now');
+        $this->isPublic = $category->isPublic();
+    }
+
+    public function getVersion(): int
+    {
+        return $this->version;
     }
 
 
@@ -99,6 +118,12 @@ class Topic
             $r = 0;
         }
         $this->numberOfPosts = $r;
+    }
+
+
+    public function getNumberOfPosts(): int
+    {
+        return $this->numberOfPosts;
     }
 
 
@@ -121,9 +146,9 @@ class Topic
     }
 
 
-    public function getCategoryTitle(): string
+    public function isPublic(): bool
     {
-        return $this->category->getTitle();
+        return $this->category->isPublic() && $this->isPublic;
     }
 
 
@@ -143,5 +168,58 @@ class Topic
     public function getLastPostCreationTime(): \DateTimeImmutable
     {
         return $this->lastPost->getCreationTime();
+    }
+
+
+    /*
+     * ----------------------------
+     * ----- CATEGORY GETTERS -----
+     * ----------------------------
+     */
+
+
+    public function getCategoryId(): int
+    {
+        return $this->category->getId();
+    }
+
+
+    public function getCategoryTitle(): string
+    {
+        return $this->category->getTitle();
+    }
+
+
+    public function getSectionTitle(): string
+    {
+        return $this->category->getSectionTitle();
+    }
+
+
+    // -----
+
+
+    /**
+     * @param bool $short
+     * @return Url
+     * @throws \Exception
+     */
+    public function createUrl(bool $short = false): Url
+    {
+        if ($this->id === null) {
+            throw new \Exception('Entity must be persisted first.');
+        }
+
+        $url = new Url();
+        if ($short === true) {
+            $url->setUrlPath((string)$this->getId(), true);
+        } else {
+            $url->setUrlPath(sprintf('%s-%s', $this->getId(), $this->getTitle()), true);
+        }
+
+        $url->setDestination('Topic:Public:PostsOverview', 'default');
+        $url->setInternalId((string)$this->getId());
+
+        return $url;
     }
 }

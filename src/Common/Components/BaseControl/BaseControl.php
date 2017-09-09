@@ -3,6 +3,7 @@
 namespace Common\Components;
 
 use Common\Components\FlashMessages\TFlashMessages;
+use Nette\Application\IPresenter;
 use Nette\Application\UI\Control;
 use Nette\Security\IAuthorizator;
 
@@ -31,7 +32,7 @@ abstract class BaseControl extends Control
     {
         $this->user = $user;
     }
-    
+
 
     /**
      * @param IFlashMessagesControlFactory $factory

@@ -52,9 +52,6 @@ class FlashMessage
     }
 
 
-    /**
-     * @return null|string
-     */
     public function getMessage(): ?string
     {
         if ($this->message === null and $this->translator !== null) {

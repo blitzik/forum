@@ -1,0 +1,22 @@
+
+<h2>New Topic</h2>
+
+<div class="topic-creation">
+    <ul n:flashes></ul>
+
+    <form n:name="form">
+        <div class="form-group">
+            <ul n:errors="title" class="form-errors"></ul>
+            <label n:name=title>Topic title</label>
+            <input n:name=title class="form-control">
+        </div>
+
+        <div class="form-group">
+            <ul n:errors="post" class="form-errors"></ul>
+            <label n:name=post>Text</label>
+            <textarea n:name=post class="form-control"></textarea>
+        </div>
+
+        <button n:name=save class="btn btn-primary submit-button">Create topic</button>
+    </form>
+</div>

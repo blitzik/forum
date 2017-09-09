@@ -4,9 +4,11 @@ namespace Category;
 
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
 use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\Version;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\Utils\Validators;
+use blitzik\Routing\Url;
 use Post\Post;
 
 /**
@@ -26,6 +28,13 @@ class Category
     const LENGTH_TITLE = 150;
     const LENGTH_DESCRIPTION = 500;
 
+    
+    /**
+     * @ORM\Column(name="version", type="integer", nullable=false, unique=false)
+     * @ORM\Version
+     * @var int
+     */
+    private $version;
 
     /**
      * @ORM\ManyToOne(targetEntity="Section")
@@ -76,11 +85,18 @@ class Category
         string $title,
         Section $section
     ) {
+        $this->version = 1;
         $this->setTitle($title);
         $this->numberOfTopics = 0;
         $this->section = $section;
         $this->position = 0;
         $this->isPublic = $section->isPublic();
+    }
+
+
+    public function getVersion(): int
+    {
+        return $this->version;
     }
 
 
@@ -104,7 +120,7 @@ class Category
 
     public function isPublic(): bool
     {
-        return $this->isPublic;
+        return $this->section->isPublic() && $this->isPublic;
     }
 
 
@@ -146,9 +162,9 @@ class Category
     }
 
 
-    public function changeSection(Section $panel): void
+    public function changeSection(Section $section): void
     {
-        $this->section = $panel;
+        $this->section = $section;
     }
 
 
@@ -192,5 +208,32 @@ class Category
         return $this->lastPost->getCreationTime();
     }
 
+
+    // -----
+
+
+    /**
+     * @param bool $short
+     * @return Url
+     * @throws \Exception
+     */
+    public function createUrl(bool $short = false): Url
+    {
+        if ($this->id === null) {
+            throw new \Exception('Entity must be persisted first.');
+        }
+
+        $url = new Url();
+        if ($short === true) {
+            $url->setUrlPath(sprintf('c%s', $this->getId()), true);
+        } else {
+            $url->setUrlPath(sprintf('c%s-%s', $this->getId(), $this->getTitle()), true);
+        }
+
+        $url->setDestination('Category:Public:Category', 'default');
+        $url->setInternalId((string)$this->getId());
+
+        return $url;
+    }
 
 }

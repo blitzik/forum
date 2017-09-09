@@ -1,1 +1,5 @@
 authenticator: Account\Services\UserAuthenticator
+
+
+signInControlFactory:
+	implement: Account\Components\ISignInControlFactory

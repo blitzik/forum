@@ -32,7 +32,11 @@ trait TFlashMessages
         $flash = new FlashMessage($this->getTranslator(), $message);
         $flash->setType($type);
 
-        $messages[] = $flash;
+        //$messages[] = $flash;
+        $messages[] = (object)[
+            'message' => $flash->getMessage(),
+            'type' => $flash->getType()
+        ];
 
         $this->getTemplate()->flashes = $messages;
         $this->getPresenter()->getFlashSession()->$id = $messages;

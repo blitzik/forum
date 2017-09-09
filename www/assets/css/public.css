@@ -33,7 +33,7 @@
   .form-errors:empty {
     margin: 0;
     padding: 0; }
-  .form-errors .error {
+  .form-errors p, .form-errors li {
     list-style-type: none;
     padding: 10px 15px;
     margin-bottom: 5px;
@@ -42,7 +42,7 @@
     border: 1px solid #f5e79e;
     display: table;
     width: 100%; }
-    .form-errors .error img {
+    .form-errors p img, .form-errors li img {
       width: 27px;
       height: 27px; }
 
@@ -57,24 +57,53 @@ a {
 a.btn {
   text-decoration: none; }
 
+.login-content {
+  margin-top: 50px;
+  padding: 10px; }
+
+.login-form-content h1 {
+  font-size: 1.2em;
+  margin-bottom: 0; }
+.login-form-content ul {
+  margin-bottom: 0; }
+
+.login-form-password {
+  text-align: right; }
+
+@media (min-width: 500px) {
+  .login-form-content {
+    max-width: 500px;
+    margin: 0 auto; } }
+.nittro-flash-global-holder {
+  z-index: 10000; }
+
+body {
+  background-color: #f9f9f9; }
+
+ul, ol, dl {
+  margin: 0;
+  padding: 0; }
+
 .forum-title h1 {
   margin-bottom: 50px; }
 
 #content-wrapper {
   margin: 0 auto; }
 
+button[type="submit"] {
+  cursor: pointer; }
+
 .overview section {
   margin-bottom: 25px;
   border-bottom: 5px solid #78909c;
   padding-bottom: 10px; }
 .overview h2 {
-  font-size: 1.15em;
+  font-size: 1.15rem;
   color: #fff;
   padding: 10px;
   background-color: #78909c;
   margin-bottom: 10px; }
 .overview .item {
-  display: flex;
   padding: 10px; }
   .overview .item.odd {
     background-color: #eceff1;
@@ -86,74 +115,219 @@ a.btn {
     border: 1px solid #fff; }
     .overview .item.even:hover {
       border: 1px solid #b7c2ca; }
-  .overview .item .item-detail,
-  .overview .item .inner-items-amount,
-  .overview .item .last-post {
-    font-size: 1.2em;
-    text-decoration: none; }
-    .overview .item .item-detail span,
-    .overview .item .inner-items-amount span,
-    .overview .item .last-post span {
-      color: #333;
-      font-size: 0.7em;
-      font-weight: bold;
-      display: block; }
-  .overview .item .item-detail {
-    flex: 2 0 55%;
-    padding-right: 10px; }
-    .overview .item .item-detail .description {
-      color: #333;
-      font-size: 0.85em;
-      margin-top: 5px; }
-    .overview .item .item-detail:hover .title-link {
-      text-decoration: underline; }
-  .overview .item .item-detail .title-link {
-    font-size: 1em;
-    color: #0275d8;
+  .overview .item .title span,
+  .overview .item .inner-items-amount span,
+  .overview .item .last-post span {
+    display: block;
     font-weight: bold; }
-  .overview .item .item-detail .creation-info {
-    font-size: 0.85em;
-    color: #333; }
-    .overview .item .item-detail .creation-info span {
-      font-size: 1em;
-      display: inline;
-      font-weight: bold; }
+  .overview .item .title span {
+    display: none; }
+  .overview .item .title a {
+    font-size: 1.25rem;
+    font-weight: bold; }
   .overview .item .inner-items-amount {
-    flex: 1 0 20%;
-    text-align: center;
     display: none; }
   .overview .item .last-post {
-    flex: 1 0 40%;
-    padding-left: 10px;
-    border-left: 1px solid #b7c2ca; }
+    margin-top: 15px; }
+    .overview .item .last-post span {
+      display: inline; }
+      .overview .item .last-post span:after {
+        content: ':'; }
 
 .overview p {
   margin: 0;
   text-align: center; }
 
+.topics-overview-actions {
+  text-align: right;
+  margin-bottom: 5px; }
+  .topics-overview-actions li {
+    display: inline;
+    list-style: none; }
+
+.post {
+  margin-bottom: 10px; }
+  .post .content {
+    border: 1px solid #B0BEC5;
+    border-bottom: 5px solid #849aa5;
+    background-color: #fff;
+    padding: 0 10px 10px 10px; }
+  .post .header {
+    padding: 10px;
+    border: 1px solid #B0BEC5;
+    border-bottom: 0;
+    background-color: #fff;
+    font-size: 1.4rem;
+    text-align: right; }
+    .post .header span {
+      display: none; }
+  .post .author {
+    margin-bottom: 10px;
+    padding-top: 10px; }
+    .post .author ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      text-align: center; }
+    .post .author .portrait {
+      display: none; }
+    .post .author .author-name {
+      font-weight: bold;
+      word-wrap: break-word; }
+      .post .author .author-name span {
+        display: block;
+        font-weight: normal; }
+  .post .detail,
+  .post .actions {
+    padding: 10px 0;
+    border-bottom: 1px solid #B0BEC5;
+    border-top: 1px solid #B0BEC5;
+    text-align: center; }
+    .post .detail ul,
+    .post .actions ul {
+      list-style: none;
+      margin: 0;
+      padding: 0; }
+      .post .detail ul li,
+      .post .actions ul li {
+        display: inline-block;
+        padding: 0 10px;
+        border-right: 1px solid #B0BEC5; }
+        .post .detail ul li:first-of-type,
+        .post .actions ul li:first-of-type {
+          padding-left: 0; }
+        .post .detail ul li:last-of-type,
+        .post .actions ul li:last-of-type {
+          border-right: 0;
+          padding-right: 0; }
+  .post .text {
+    margin-top: 20px; }
+  .post .wrapper {
+    padding-top: 10px; }
+  .post .footer {
+    margin-top: 100px; }
+  .post .signature {
+    border-top: 1px solid #B0BEC5;
+    padding: 10px 0;
+    text-align: center; }
+  .post .actions {
+    padding-top: 15px;
+    border-bottom: 0;
+    text-align: left;
+    overflow: hidden; }
+    .post .actions ul li {
+      padding: 0;
+      border: 0;
+      text-align: center; }
+      .post .actions ul li:nth-of-type(1) {
+        float: left; }
+      .post .actions ul li:nth-of-type(2) {
+        float: right; }
+
+.topic-creation {
+  padding: 15px;
+  border: 1px solid #B0BEC5;
+  background-color: #fff; }
+
+.submit-button {
+  display: block;
+  width: 100%; }
+
 .info-box {
   border: 1px solid #78909c;
-  padding: 15px; }
+  padding: 15px;
+  background-color: #fff; }
   .info-box h2 {
     font-weight: bold;
     margin-bottom: 25px; }
 
-.bread-crumbs-nav {
-  border: 1px solid #78909c; }
+.btn-create {
+  color: #fff;
+  background-color: #3498db;
+  border-color: #3498db; }
+  .btn-create:hover {
+    color: #fff;
+    background-color: #217dbb;
+    border-color: #2077b2; }
+  .btn-create:focus, .btn-create.focus {
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.5); }
+  .btn-create.disabled, .btn-create:disabled {
+    background-color: #3498db;
+    border-color: #3498db; }
+  .btn-create:active, .btn-create.active, .show > .btn-create.dropdown-toggle {
+    color: #fff;
+    background-color: #217dbb;
+    background-image: none;
+    border-color: #2077b2; }
 
+@media (min-width: 600px) {
+  .overview .item {
+    overflow: auto; }
+    .overview .item .item-body {
+      width: 80%;
+      float: left;
+      padding-right: 10px;
+      border-right: 1px solid #B0BEC5; }
+    .overview .item .title span {
+      display: block; }
+    .overview .item .inner-items-amount {
+      width: 20%;
+      text-align: center;
+      display: block;
+      float: right;
+      padding-left: 10px; }
+      .overview .item .inner-items-amount span {
+        margin-bottom: 5px; }
+    .overview .item .last-post {
+      text-align: right; } }
 @media (min-width: 768px) {
-  .overview .item .item-detail {
-    flex: 2 0 55%; }
-  .overview .item .inner-items-amount {
-    display: block;
-    flex: 1 0 15%;
-    border-left: 1px solid #b7c2ca;
-    border-right: 1px solid #b7c2ca; }
-  .overview .item .last-post {
-    flex: 2 0 25%;
-    border: 0; } }
-@media (min-width: 1440px) {
+  .post {
+    overflow: auto; }
+    .post .header {
+      display: block;
+      overflow: auto;
+      text-align: left; }
+      .post .header span {
+        display: inline;
+        float: left; }
+      .post .header a {
+        float: right; }
+    .post .content {
+      clear: both; }
+    .post .author {
+      width: 200px;
+      padding-right: 10px;
+      float: left; }
+      .post .author .portrait {
+        display: block;
+        width: 150px;
+        height: 150px;
+        background-color: #fff;
+        border: 1px solid #e5eaec; }
+      .post .author ul {
+        text-align: left; }
+    .post .detail {
+      text-align: left;
+      border: 0;
+      padding: 10px 0; }
+      .post .detail .post-number {
+        float: right; }
+        .post .detail .post-number a {
+          font-size: 1.15rem; }
+    .post .wrapper {
+      overflow: auto;
+      border-left: 1px solid #B0BEC5;
+      padding-top: 0; }
+    .post .text {
+      font-size: 1.2rem; }
+    .post .body,
+    .post .footer {
+      display: block;
+      padding-left: 20px; }
+    .post .footer {
+      clear: both; } }
+@media (min-width: 1280px) {
   #content-wrapper {
-    max-width: 1440px; } }
+    max-width: 1280px; } }
 
 /*# sourceMappingURL=public.css.map */

@@ -38,11 +38,12 @@ final class CategoryPresenter extends PublicPresenter
                                );
 
         if (!$this->category->isPublic() and !$this->user->isLoggedIn()) {
+            $this->setMetaTitle(sprintf('Forum %s is not public', $this->category->getTitle()), false);
             $this->setView('categoryIsNotPublic');
-
-        } else {
-            $this->setView('topicsOverview');
+            return;
         }
+
+        $this->setMetaTitle($this->category->getTitle());
     }
 
 

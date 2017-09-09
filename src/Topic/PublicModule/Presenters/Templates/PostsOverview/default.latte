@@ -1,0 +1,7 @@
+{block content}
+
+    <h2>{$topic->getTitle()}</h2>
+    <p>{$topic->getSectionTitle()} > <a href="{plink :Category:Public:Category:default internalId => (string)$topic->getCategoryId()}">{$topic->getCategoryTitle()}</a></p>
+    {control postsOverview}
+
+{/block}

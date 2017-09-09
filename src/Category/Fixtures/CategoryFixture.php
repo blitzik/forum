@@ -29,6 +29,9 @@ class CategoryFixture extends AbstractFixture
     {
         $ug = new UrlGenerator('Category:Public:Homepage', $manager);
         $ug->addUrl('', 'default');
+
+        $ug->addPresenter('Category:Public:Test')
+           ->addUrl('test', 'default');
     }
 
 
@@ -78,10 +81,10 @@ class CategoryFixture extends AbstractFixture
 
         /** @var Category $category */
         foreach ($categories as $category) {
-            $categoryUrl = UrlGenerator::create(sprintf('c%s-%s', $category->getId(), $category->getTitle()), true, 'Category:Public:Category', 'default', (string)$category->getId());
-            $manager->persist($category);
+            $categoryUrl = $category->createUrl();
+            $manager->persist($categoryUrl);
 
-            $shortUrl = UrlGenerator::create(sprintf('c%s', $category->getId()), true, 'Category:Public:Category', 'default', (string)$category->getId());
+            $shortUrl = $category->createUrl(true);
             $shortUrl->setRedirectTo($categoryUrl);
             $manager->persist($shortUrl);
         }

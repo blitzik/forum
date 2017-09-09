@@ -15,7 +15,7 @@ class AccountFixture extends AbstractFixture
 {
     public function load(ObjectManager $manager)
     {
-        //$this->loadDefaultUrls($manager);
+        $this->loadDefaultUrls($manager);
         //$this->loadDefaultAuthorizatorRules($manager);
         $this->loadDefaultPrivileges($manager);
         $this->loadDefaultRoles($manager);
@@ -27,8 +27,9 @@ class AccountFixture extends AbstractFixture
 
     private function loadDefaultUrls(ObjectManager $manager)
     {
-        $ug = new UrlGenerator('', $manager);
-        $ug->addUrl('', '');
+        $ug = new UrlGenerator('Account:Public:Auth', $manager);
+        $ug->addUrl('sign-in', 'signIn')
+           ->addUrl('sign-out', 'signOut');
     }
 
 

@@ -20,6 +20,11 @@ abstract class AppPresenter extends Presenter
     use PresenterUtils;
 
 
+    /** @persistent */
+    public $_backLink = null;
+
+
+
     /**
      * @var IFlashMessagesControlFactory
      * @inject
@@ -65,17 +70,13 @@ abstract class AppPresenter extends Presenter
     {
         parent::startup();
 
-        // Only redraw default snippets if nobody is receiving a signal
         $this->setRedrawDefault($this->getSignal() === NULL);
+
+        $this->redrawControl('flashMessages');
         $this->globalSettings = $this->settingFacade->getAllSettings();
-    }
-
-
-    protected function beforeRender(): void
-    {
-        parent::beforeRender();
 
         $this->template->assetsVersion = '001';
+        $this->template->flashSession = [];
         $this->template->globalSettings = $this->globalSettings;
     }
 
@@ -87,6 +88,7 @@ abstract class AppPresenter extends Presenter
         if ($this->isAjax()) {
             // Redraw default snippets if enabled
             $this->redrawDefault();
+
         } else {
             $this->template->flashSession = $this->exportFlashSession();
         }
@@ -95,8 +97,11 @@ abstract class AppPresenter extends Presenter
 
     public function sendPayload()
     {
-        // Send flash messages in payload
-        $this->payload->flashes = $this->exportFlashSession();
+        if ($this->hasFlashSession()) {
+            $flashes = $this->getFlashSession();
+            $this->payload->flashes = iterator_to_array($flashes->getIterator());
+            $flashes->remove();
+        }
 
         parent::sendPayload();
     }
@@ -125,5 +130,11 @@ abstract class AppPresenter extends Presenter
     protected function createComponentPageTitle(): PageTitleControl
     {
         return $this->pageTitleControlFactory->create();
+    }
+
+
+    protected function setMetaTitle(string $title, bool $projectTitleFirst = true): void
+    {
+        $this['metaTitle']->setTitle(sprintf('%s%s', $projectTitleFirst ? $this->globalSettings['forumTitle'] . ' - ' : null, $title));
     }
 }

@@ -6,6 +6,7 @@ use Common\Components\BaseControl;
 use Doctrine\ORM\AbstractQuery;
 use Topic\Facades\TopicFacade;
 use Topic\Queries\TopicQuery;
+use Nette\Utils\ArrayHash;
 use Category\Category;
 
 class TopicsOverviewControl extends BaseControl
@@ -49,7 +50,8 @@ class TopicsOverviewControl extends BaseControl
 
         } else {
             $template->setFile(__DIR__ . '/Templates/overview.latte');
-            $template->topics = $topics;
+            $template->topics = ArrayHash::from($topics);
+            unset($topics);
         }
 
         $template->render();

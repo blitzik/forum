@@ -1,1 +1,18 @@
+
+- Topic\Services\Writers\TopicWriter
+
+
+# facades
 - Topic\Facades\TopicFacade
+
+
+topicCreationFormControlFactory:
+	implement: Topic\Components\ITopicCreationFormControlFactory
+	parameters: [Account\Account account, Category\Category category]
+	arguments: [%account%, %category%]
+
+
+postsOverviewControlFactory:
+	implement: Topic\Components\IPostsOverviewControlFactory
+	parameters: [Topic\Topic topic]
+	arguments: [%topic%]

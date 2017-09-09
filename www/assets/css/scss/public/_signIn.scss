@@ -1,0 +1,28 @@
+
+.login-content{
+  margin-top: 50px;
+  padding: 10px;
+}
+
+.login-form-content{
+  h1{
+    font-size: 1.2em;
+    margin-bottom: 0;
+  }
+
+  ul{
+    margin-bottom: 0;
+  }
+}
+
+.login-form-password{
+  text-align: right;
+}
+
+
+@media (min-width: 500px) {
+  .login-form-content{
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}

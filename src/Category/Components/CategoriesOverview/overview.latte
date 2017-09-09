@@ -1,0 +1,39 @@
+
+<div class="overview">
+{foreach $sections as $section}
+    <section>
+        <h2>{$section->title}</h2>
+
+        {foreach $section->categories as $category}
+        <div n:class="'item', $iterator->isOdd() ? 'odd' : 'even'">
+            <div class="item-body">
+                <div class="title">
+                    <span>Name</span>
+                    <a href="{plink :Category:Public:Category:default internalId => (string)$category->id}">{$category->title}</a>
+                </div>
+
+                <div class="description" n:if="!($category->description === null or $category->description === '')">
+                    {$category->description}
+                </div>
+
+                <div class="last-post">
+                    <span>Last post</span>
+                    {if $category->lastPost !== null}
+                        {var $lastPostTitle = sprintf('Created on %s at %s by %s', $category->lastPost->createdAt->format('j. F Y'), $category->lastPost->createdAt->format('H:i'), $category->lastPost->author->name)}
+                        <a href="{plink :Topic:Public:PostsOverview:default internalId => (string)$category->lastPost->topic->id}" title="{$lastPostTitle}">{$category->lastPost->createdAt|relativeTime}</a> by {$category->lastPost->author->name}
+                    {else}
+                        forum is empty
+                    {/if}
+                </div>
+            </div>
+
+            <div class="inner-items-amount">
+                <span>Topics</span>
+                {$category->numberOfTopics}
+            </div>
+        </div>
+        {/foreach}
+
+    </section>
+{/foreach}
+</div>

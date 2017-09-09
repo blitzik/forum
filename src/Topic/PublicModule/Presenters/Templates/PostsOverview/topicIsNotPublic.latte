@@ -1,0 +1,8 @@
+{block content}
+    <div class="info-box">
+        <h2>Requested topic is not public</h2>
+
+        <p>Requested topic <strong>{$topic->getTitle()}</strong> is not public.
+            If you want to visit this topic, <a href="{plink :Account:Public:Auth:signIn}">you have to be logged in</a>.</p>
+    </div>
+{/block}

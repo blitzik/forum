@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use blitzik\Authorization\Role;
+use Nette\Security\IIdentity;
 use Nette\Security\Passwords;
 use Nette\Utils\Validators;
 use Nette\Security\IRole;
@@ -18,7 +19,7 @@ use Nette\Utils\Random;
  * @ORM\Table(name="account")
  *
  */
-class Account
+class Account implements IIdentity
 {
     use Identifier;
 

@@ -27,9 +27,45 @@ class TopicQuery extends QueryObject
     }
 
 
-    public function withAuthor(array $onlyFields = []): self
+    public function withCategory(array $fields = []): self
     {
-        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($onlyFields) {
+        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($fields) {
+            if (!empty($fields)) {
+                $fields[] = 'id';
+                $fields = array_unique($fields);
+                $qb->addSelect(sprintf('PARTIAL c.{%s}', implode(',', $fields)));
+
+            } else {
+                $qb->addSelect('c');
+            }
+            $qb->innerJoin('t.category', 'c');
+        };
+
+        return $this;
+    }
+
+
+    public function withCategorySection(array $fields = []): self
+    {
+        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($fields) {
+            if (!empty($fields)) {
+                $fields[] = 'id';
+                $fields = array_unique($fields);
+                $qb->addSelect(sprintf('PARTIAL s.{%s}', implode(',', $fields)));
+
+            } else {
+                $qb->addSelect('s');
+            }
+            $qb->innerJoin('c.section', 's');
+        };
+
+        return $this;
+    }
+
+
+    public function withAuthor(array $fields = []): self
+    {
+        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($fields) {
             if (!empty($fields)) {
                 $fields[] = 'id';
                 $fields = array_unique($fields);

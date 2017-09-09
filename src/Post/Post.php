@@ -27,7 +27,7 @@ class Post
 
     /**
      * @ORM\ManyToOne(targetEntity="\Topic\Topic")
-     * @ORM\JoinColumn(name="topic", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="topic", referencedColumnName="id", nullable=false)
      * @var Topic
      */
     private $topic;
@@ -54,9 +54,12 @@ class Post
      
     public function __construct(
         Account $author,
+        Topic $topic,
         string $text
     ) {
         $this->author = $author;
+        $this->author->updateTotalNumberOfPostsBy(1);
+        $this->changeTopic($topic);
         $this->updateText($text);
         $this->createdAt = new \DateTimeImmutable('now');
     }
@@ -71,7 +74,6 @@ class Post
             $this->topic = $topic;
             $topic->updateTotalNumberOfPostsBy(1);
             $topic->changeLastPost($this);
-
         }
     }
 
