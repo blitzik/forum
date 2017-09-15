@@ -13,6 +13,7 @@ use Nette\Security\Passwords;
 use Nette\Utils\Validators;
 use Nette\Security\IRole;
 use Nette\Utils\Random;
+use Post\Post;
 
 /**
  * @ORM\Entity
@@ -109,13 +110,9 @@ class Account implements IIdentity
     }
 
 
-    public function updateTotalNumberOfPostsBy(int $i): void
+    public function addPost(Post $post): void
     {
-        $r = $this->numberOfPosts + $i;
-        if ($r < 0) {
-            $r = 0;
-        }
-        $this->numberOfPosts = $r;
+        $this->numberOfPosts += 1;
     }
 
 

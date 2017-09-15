@@ -1,48 +1,44 @@
 
 {foreach $posts as $post}
     {var $author = $post->author}
-    <div class="post">
+    <div class="post" id="post-{$post->id}">
         <div class="header">
-            <a n:href="this#{$iterator->getCounter()}">{$iterator->getCounter()}#</a>
-            <span>{if !$iterator->isFirst()}RE - {/if}{$topic->getTitle()}</span>
+            {if !$iterator->isFirst()}RE: {/if}{$topic->getTitle()}
         </div>
 
-        <div class="content">
-            <div class="author">
+        <div class="author">
+            <div class="portrait">
+                <div></div>
+            </div>
+            <ul class="author-info">
+                <li><a href="#">{$author->name}</a></li>
+                <li>{$author->role->name|firstUpper} <span>({$author->numberOfPosts} posts)</span></li>
+            </ul>
+        </div>
+
+        <div class="body">
+            <div class="detail">
                 <ul>
-                    <li class="portrait">
-                        <div></div>
-                    </li>
-                    <li class="author-name">{$author->name} <span>{$author->role->name|firstUpper} ({$author->numberOfPosts})</span></li>
+                    <li title="Created {$post->createdAt|date:"H:i, M-d-Y"}">Created {$post->createdAt|relativeTime}</li>
+                    <li n:if="$iterator->isFirst()">{$topic->getNumberOfPosts()} replies</li>
                 </ul>
             </div>
 
-            <div class="wrapper">
-                <div class="body">
-                    <div class="detail">
-                        <ul>
-                            <li title="{$post->createdAt|date:"H:i, M-d-Y"}">{$post->createdAt|relativeTime}</li>
-                            <li n:if="$iterator->isFirst()">{$topic->getNumberOfPosts()} replies</li>
-                        </ul>
-                    </div>
+            <div class="text">
+                {$post->text}
+            </div>
 
-                    <div class="text">
-                        {$post->text}
-                    </div>
-                </div>
+            {*<div class="signature">
+                signature
+            </div>*}
+        </div>
 
-                <div class="footer">
-                    <div class="signature">
-                        signature
-                    </div>
-
-                    <div class="actions">
-                        <ul>
-                            <li><a href="">report</a></li>
-                            <li><a href="">reply</a></li>
-                        </ul>
-                    </div>
-                </div>
+        <div class="footer">
+            <div class="actions">
+                <ul>
+                    <li><a href="">report</a></li>
+                    <li><a href="">reply</a></li>
+                </ul>
             </div>
         </div>
 

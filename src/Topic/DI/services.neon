@@ -16,3 +16,8 @@ postsOverviewControlFactory:
 	implement: Topic\Components\IPostsOverviewControlFactory
 	parameters: [Topic\Topic topic]
 	arguments: [%topic%]
+
+postFormControlFactory:
+	implement: Topic\Components\IPostFormControlFactory
+	parameters: [Account\Account account, Topic\Topic topic]
+	arguments: [%account%, %topic%]

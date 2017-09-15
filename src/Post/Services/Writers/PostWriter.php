@@ -2,9 +2,10 @@
 
 namespace Post\Services\Writers;
 
-use Doctrine\ORM\OptimisticLockException;
+use Category\Category;
+use Topic\Exceptions\PostCreationFailedException;
+use Forum\Exceptions\OptimisticLockException;
 use Kdyby\Doctrine\EntityManager;
-use Doctrine\DBAL\LockMode;
 use Account\Account;
 use Topic\Topic;
 use Post\Post;
@@ -33,7 +34,22 @@ class PostWriter implements IPostWriter
         try {
             $this->em->beginTransaction();
 
-            $post = $this->createTopic($author, $topic, $text);
+            $this->em->createQuery(
+                'UPDATE ' . Category::class . ' c
+                 SET c.version = c.version + 1
+                 WHERE c.id = :id'
+            )->execute(['id' => $topic->getCategoryId()]);
+
+            $this->em->createQuery(
+                'UPDATE ' . Topic::class . ' t
+                 SET t.version = t.version + 1
+                 WHERE t.id = :id'
+            )->execute(['id' => $topic->getId()]);
+
+            $this->em->refresh($author);
+
+            $post = new Post($author, $topic, $text);
+            $this->em->persist($post);
 
             $this->em->flush();
             $this->em->commit();
@@ -42,33 +58,7 @@ class PostWriter implements IPostWriter
             $this->em->rollback();
             $this->em->close();
 
-            throw $e;
-        }
-
-        return $post;
-    }
-
-
-    private function createTopic(Account $author, Topic $topic, string $text): Post
-    {
-        try {
-            $currentTopicVersion = $this->em->createQuery(
-                'SELECT t.version FROM ' . Topic::class . ' t
-                 WHERE t.id = :id'
-            )->setParameter('id', $topic->getId())
-             ->getSingleScalarResult();
-
-            $this->em->lock($topic, LockMode::OPTIMISTIC, $currentTopicVersion);
-
-            $post = new Post($author, $topic, $text);
-            $this->em->persist($post);
-
-        } catch (OptimisticLockException $e) {
-            $this->em->detach($topic);
-
-            /** @var Topic $topic */
-            $topic = $this->em->find(Topic::class, $topic->getId());
-            $post = $this->write($author, $topic, $text);
+            throw new PostCreationFailedException;
         }
 
         return $post;

@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\Utils\Validators;
-use Category\Category;
 use Account\Account;
 use Topic\Topic;
 
@@ -58,7 +57,7 @@ class Post
         string $text
     ) {
         $this->author = $author;
-        $this->author->updateTotalNumberOfPostsBy(1);
+        $this->author->addPost($this);
         $this->changeTopic($topic);
         $this->updateText($text);
         $this->createdAt = new \DateTimeImmutable('now');
@@ -69,11 +68,10 @@ class Post
     {
         if ($this->topic === null or $this->topic->getId() !== $topic->getId()) {
             if ($this->topic !== null) {
-                $this->topic->updateTotalNumberOfPostsBy(-1);
+                $this->topic->removePost($this);
             }
             $this->topic = $topic;
-            $topic->updateTotalNumberOfPostsBy(1);
-            $topic->changeLastPost($this);
+            $topic->addPost($this);
         }
     }
 

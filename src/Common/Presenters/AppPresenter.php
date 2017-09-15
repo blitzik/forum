@@ -75,7 +75,7 @@ abstract class AppPresenter extends Presenter
         $this->redrawControl('flashMessages');
         $this->globalSettings = $this->settingFacade->getAllSettings();
 
-        $this->template->assetsVersion = '001';
+        $this->template->assetsVersion = '002';
         $this->template->flashSession = [];
         $this->template->globalSettings = $this->globalSettings;
     }

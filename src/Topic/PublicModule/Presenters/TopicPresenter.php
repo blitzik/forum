@@ -46,6 +46,7 @@ final class TopicPresenter extends PublicPresenter
         $this->category = $this->categoryFacade
                                ->getCategory(
                                    (new CategoryQuery())
+                                   ->withSection()
                                    ->byId((int)$cid)
                                );
 

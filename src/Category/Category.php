@@ -4,12 +4,12 @@ namespace Category;
 
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
 use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\Version;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\Utils\Validators;
 use blitzik\Routing\Url;
 use Post\Post;
+use Topic\Topic;
 
 /**
  * @ORM\Entity
@@ -28,10 +28,9 @@ class Category
     const LENGTH_TITLE = 150;
     const LENGTH_DESCRIPTION = 500;
 
-    
+
     /**
      * @ORM\Column(name="version", type="integer", nullable=false, unique=false)
-     * @ORM\Version
      * @var int
      */
     private $version;
@@ -80,6 +79,12 @@ class Category
      */
     private $numberOfTopics;
 
+    /**
+     * @ORM\Column(name="number_of_posts", type="integer", nullable=false, unique=false)
+     * @var int
+     */
+    private $numberOfPosts;
+
      
     public function __construct(
         string $title,
@@ -88,6 +93,7 @@ class Category
         $this->version = 1;
         $this->setTitle($title);
         $this->numberOfTopics = 0;
+        $this->numberOfPosts = 0;
         $this->section = $section;
         $this->position = 0;
         $this->isPublic = $section->isPublic();
@@ -97,12 +103,6 @@ class Category
     public function getVersion(): int
     {
         return $this->version;
-    }
-
-
-    public function changeLastPost(Post $post): void
-    {
-        $this->lastPost = $post;
     }
 
 
@@ -180,13 +180,16 @@ class Category
     }
 
 
-    public function updateTotalNumberOfTopicsBy(int $i): void
+    public function addTopic(Topic $topic): void
     {
-        $r = $this->numberOfTopics + $i;
-        if ($r < 0) {
-            $r = 0;
-        }
-        $this->numberOfTopics = $r;
+        $this->numberOfTopics += 1;
+    }
+
+
+    public function addPost(Post $post): void
+    {
+        $this->numberOfPosts += 1;
+        $this->lastPost = $post;
     }
 
 

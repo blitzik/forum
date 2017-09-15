@@ -3,7 +3,9 @@
 namespace Topic\PublicModule\Presenters;
 
 use Common\PublicModule\Presenters\PublicPresenter;
+use Post\Post;
 use Topic\Components\IPostsOverviewControlFactory;
+use Topic\Components\IPostFormControlFactory;
 use Topic\Facades\TopicFacade;
 use Topic\Queries\TopicQuery;
 use Topic\Topic;
@@ -15,6 +17,12 @@ final class PostsOverviewPresenter extends PublicPresenter
      * @inject
      */
     public $postsOverviewControlFactory;
+
+    /**
+     * @var IPostFormControlFactory
+     * @inject
+     */
+    public $postFormControlFactory;
 
     /**
      * @var TopicFacade
@@ -58,6 +66,18 @@ final class PostsOverviewPresenter extends PublicPresenter
     protected function createComponentPostsOverview()
     {
         $comp = $this->postsOverviewControlFactory->create($this->topic);
+
+        return $comp;
+    }
+
+
+    protected function createComponentPostForm()
+    {
+        $comp = $this->postFormControlFactory->create($this->user->getIdentity(), $this->topic);
+
+        $comp->onSuccessfulCreation[] = function (Post $post) {
+            $this->redirect(sprintf('this#post-%s', $post->getId()));
+        };
 
         return $comp;
     }

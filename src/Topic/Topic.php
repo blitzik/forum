@@ -31,7 +31,6 @@ class Topic
 
     /**
      * @ORM\Column(name="version", type="integer", nullable=false, unique=false)
-     * @ORM\Version
      * @var int
      */
     private $version;
@@ -91,7 +90,7 @@ class Topic
         $this->setTitle($title);
         $this->author = $author;
         $this->category = $category;
-        $this->category->updateTotalNumberOfTopicsBy(1);
+        $this->category->addTopic($this);
         $this->numberOfPosts = 0;
         $this->createdAt = new \DateTimeImmutable('now');
         $this->isPublic = $category->isPublic();
@@ -103,21 +102,18 @@ class Topic
     }
 
 
-    public function changeLastPost(Post $post): void
+    public function addPost(Post $post): void
     {
         $post->changeTopic($this);
+        $this->numberOfPosts += 1;
         $this->lastPost = $post;
-        $this->category->changeLastPost($post);
+        $this->category->addPost($post);
     }
 
 
-    public function updateTotalNumberOfPostsBy(int $i): void
+    public function removePost(Post $post): void
     {
-        $r = $this->numberOfPosts + $i;
-        if ($r < 0) {
-            $r = 0;
-        }
-        $this->numberOfPosts = $r;
+        $this->numberOfPosts -= 1;
     }
 
 
@@ -182,6 +178,12 @@ class Topic
     {
         return $this->category->getId();
     }
+
+
+    /*public function getCategoryVersion(): int
+    {
+        return $this->category->getVersion();
+    }*/
 
 
     public function getCategoryTitle(): string

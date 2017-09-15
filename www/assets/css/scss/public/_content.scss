@@ -127,120 +127,89 @@ button[type="submit"]{
 
 
 .post{
+  padding: 10px;
+  border: 1px solid #B0BEC5;
   margin-bottom: 10px;
+  background-color: #fff;
 
-  .content{
-    border: 1px solid #B0BEC5;
-    border-bottom: 5px solid darken(#B0BEC5, 15%);
-    background-color: #fff;
-    padding: 0 10px 10px 10px;
+  ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
   .header{
-    padding: 10px;
-    border: 1px solid #B0BEC5;
-    border-bottom: 0;
-    background-color: #fff;
-    font-size: 1.4rem;
-    text-align: right;
-
-    span{
-      display: none;
-    }
+    padding-bottom: 10px;
+    border-bottom: 1px solid #B0BEC5;
+    font-size: 1.2rem;
   }
 
   .author{
-    margin-bottom: 10px;
-    padding-top: 10px;
-
-    ul{
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
+    padding: 10px 0;
+    border-bottom: 1px solid #B0BEC5;
 
     .portrait{
       display: none;
     }
 
-    .author-name{
+    .author-info a{
+      color: #333;
       font-weight: bold;
-      word-wrap: break-word;
-
-      span{
-        display: block;
-        font-weight: normal;
-      }
     }
   }
 
-  .detail,
-  .actions{
-    padding: 10px 0;
-    border-bottom: 1px solid #B0BEC5;
-    border-top: 1px solid #B0BEC5;
-    text-align: center;
+  .body{
+    .detail{
+      margin-bottom: 25px;
 
-    ul{
-      list-style: none;
-      margin: 0;
-      padding: 0;
-
-      li{
+      ul li{
         display: inline-block;
-        padding: 0 10px;
-        border-right: 1px solid #B0BEC5;
-
-        &:first-of-type{
-          padding-left: 0;
-        }
-
-        &:last-of-type{
-          border-right: 0;
-          padding-right: 0;
-        }
+        margin-right: 15px;
       }
     }
-  }
 
-  .text{
-    margin-top: 20px;
-  }
+    .text{
+      margin-bottom: 25px;
+    }
 
-  .wrapper{
-    padding-top: 10px;
+    .signature{
+      padding: 10px 0;
+    }
   }
 
   .footer{
-    margin-top: 100px;
-  }
-
-  .signature{
+    padding-top: 10px;
     border-top: 1px solid #B0BEC5;
-    padding: 10px 0;
-    text-align: center;
-  }
-
-  .actions{
-    padding-top: 15px;
-    border-bottom: 0;
-    text-align: left;
     overflow: hidden;
+    text-align: right;
 
-    ul li{
-      padding: 0;
-      border: 0;
-      text-align: center;
-
-      &:nth-of-type(1){
-        float: left;
-      }
-
-      &:nth-of-type(2){
-        float: right;
+    .actions ul{
+      li{
+        display: inline-block;
+        margin-left: 15px;
       }
     }
+  }
+}
+
+.postForm{
+  margin: 35px 0 100px 0;
+
+  h2{
+    padding: 35px 0;
+    border-top: 1px solid #B0BEC5;
+  }
+
+  form{
+    text-align: right;
+  }
+
+  button[type="submit"]{
+    margin-top: 15px;
+  }
+
+  .form-errors{
+    text-align: left;
   }
 }
 
@@ -281,7 +250,7 @@ button[type="submit"]{
 }
 
 
-@media (min-width: 600px) {
+@media (min-width: 600px){
   .overview .item{
     overflow: auto;
 
@@ -315,74 +284,34 @@ button[type="submit"]{
 }
 
 
-@media (min-width: 768px) {
+@media (min-width: 768px){
   .post{
-    overflow: auto;
-
-    .header{
-      display: block;
-      overflow: auto;
-      text-align: left;
-
-      span{
-        display: inline;
-        float: left;
-      }
-
-      a{
-        float: right;
-      }
-    }
-
-    .content{
-      clear: both;
-    }
+    width: 100%;
+    overflow: hidden;
 
     .author{
-      width: 200px;
-      padding-right: 10px;
+      width: 150px;
       float: left;
+      border: 0;
+      text-align: center;
+      margin-bottom: 50px;
 
       .portrait{
+        width: 100px;
+        height: 100px;
         display: block;
-        width: 150px;
-        height: 150px;
-        background-color: #fff;
         border: 1px solid lighten(#B0BEC5, 18%);
+        background-color: #f9f9f9;
+        margin: 0 auto 15px auto;
       }
 
-      ul{
-        text-align: left;
-      }
-    }
-
-    .detail{
-      text-align: left;
-      border: 0;
-      padding: 10px 0;
-
-      .post-number{
-        float: right;
-
-        a{
-          font-size: 1.15rem;
-        }
+      .author-info span{
+        display: block;
       }
     }
 
-    .wrapper{
-      overflow: auto;
-      border-left: 1px solid #B0BEC5;
-      padding-top: 0;
-    }
-
-    .text{
-      font-size: 1.2rem;
-    }
-
-    .body,
-    .footer{
-      display: block;
+    .body{
+      margin-left: 150px;
       padding-left: 20px;
     }
 
@@ -393,7 +322,7 @@ button[type="submit"]{
 }
 
 
-@media (min-width: 1280px) {
+@media (min-width: 1280px){
   #content-wrapper{
     max-width: 1280px;
   }
@@ -402,10 +331,13 @@ button[type="submit"]{
 
 
 
-@supports (display: grid) {
+@supports (display: grid){
 
-  @media (min-width: 768px) {
-
-  }
+  /*@media (min-width: 768px) {
+    .post{
+      display: grid;
+      grid-template-columns: 1fr ;
+    }
+  }*/
 
 }

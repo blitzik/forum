@@ -3,9 +3,7 @@
 namespace Topic\Services\Writers;
 
 use Topic\Exceptions\TopicCreationFailedException;
-use Doctrine\ORM\OptimisticLockException;
 use Kdyby\Doctrine\EntityManager;
-use Doctrine\DBAL\LockMode;
 use Kdyby\Monolog\Logger;
 use Category\Category;
 use Account\Account;
@@ -43,7 +41,21 @@ class TopicWriter implements ITopicWriter
         try {
             $this->em->beginTransaction();
 
-            $topic = $this->createTopic($title, $text, $author, $category);
+            $this->em->createQuery(
+                'UPDATE ' . Category::class . ' c
+                 SET c.version = c.version + 1
+                 WHERE c.id = :id'
+            )->execute(['id' => $category->getId()]);
+
+            $this->em->refresh($author);
+
+            $topic = new Topic($title, $author, $category);
+            $this->em->persist($topic);
+
+            $post = new Post($author, $topic, $text);
+            $this->em->persist($post);
+
+            $this->em->flush();
 
             $topicUrl = $topic->createUrl();
             $this->em->persist($topicUrl);
@@ -62,37 +74,6 @@ class TopicWriter implements ITopicWriter
             $this->logger->addCritical(sprintf('[%s#][%s][%s] - %s', $author->getId(), $author->getName(), $author->getEmail(), $e->getMessage()));
 
             throw new TopicCreationFailedException();
-        }
-
-        return $topic;
-    }
-
-
-    private function createTopic(string $title, string $text, Account $author, Category $category): Topic
-    {
-        try {
-            $currentCategoryVersion = $this->em->createQuery(
-                'SELECT c.version FROM ' . Category::class . ' c
-                 WHERE c.id = :id'
-            )->setParameter('id', $category->getId())
-             ->getSingleScalarResult();
-
-            $this->em->lock($category, LockMode::OPTIMISTIC, $currentCategoryVersion);
-
-            $topic = new Topic($title, $author, $category);
-            $this->em->persist($topic);
-
-            $post = new Post($author, $topic, $text);
-            $this->em->persist($post);
-
-            $this->em->flush();
-
-        } catch (OptimisticLockException $e) {
-            $this->em->detach($category);
-
-            /** @var Category $category */
-            $category = $this->em->find(Category::class, $category->getId());
-            $topic = $this->createTopic($title, $text, $author, $category);
         }
 
         return $topic;
