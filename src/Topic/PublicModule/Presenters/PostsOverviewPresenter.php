@@ -3,12 +3,12 @@
 namespace Topic\PublicModule\Presenters;
 
 use Common\PublicModule\Presenters\PublicPresenter;
-use Post\Post;
 use Topic\Components\IPostsOverviewControlFactory;
 use Topic\Components\IPostFormControlFactory;
 use Topic\Facades\TopicFacade;
 use Topic\Queries\TopicQuery;
 use Topic\Topic;
+use Post\Post;
 
 final class PostsOverviewPresenter extends PublicPresenter
 {

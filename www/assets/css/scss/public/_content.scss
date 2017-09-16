@@ -69,8 +69,7 @@ button[type="submit"]{
       }
     }
 
-    .title,
-    .inner-items-amount,
+    .inner-items-count,
     .last-post{
       span{
         display: block;
@@ -78,17 +77,34 @@ button[type="submit"]{
       }
     }
 
-    .title{
-      span{ display: none}
-
-      a{
-        font-size: 1.25rem;
-        font-weight: bold;
-      }
+    .title a{
+      font-size: 1.25rem;
+      font-weight: bold;
     }
 
-    .inner-items-amount{
-      display: none;
+    .inner-items-count{
+      //display: none;
+      text-align: right;
+
+      span {
+        display: inline;
+      }
+
+      /*div{
+        display: inline;
+        margin-left: 20px;
+      }*/
+
+      ul{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        li{
+          display: inline-block;
+          margin-left: 10px;
+        }
+      }
     }
 
     .last-post{
@@ -251,36 +267,7 @@ button[type="submit"]{
 
 
 @media (min-width: 600px){
-  .overview .item{
-    overflow: auto;
 
-    .item-body{
-      width: 80%;
-      float: left;
-      padding-right: 10px;
-      border-right: 1px solid #B0BEC5;
-    }
-
-    .title span{
-      display: block;
-    }
-
-    .inner-items-amount{
-      width: 20%;
-      text-align: center;
-      display: block;
-      float: right;
-      padding-left: 10px;
-
-      span{
-        margin-bottom: 5px;
-      }
-    }
-
-    .last-post{
-      text-align: right;
-    }
-  }
 }
 
 
@@ -332,12 +319,67 @@ button[type="submit"]{
 
 
 @supports (display: grid){
+  @media (min-width: 600px){
+    .overview{
+      .item{
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-column-gap: 10px;
+        grid-template-areas: "itemBody innerItemsCount" "lastPost innerItemsCount";
 
-  /*@media (min-width: 768px) {
-    .post{
-      display: grid;
-      grid-template-columns: 1fr ;
+        &.topic{
+          grid-template-columns: 2fr 200px;
+        }
+
+        .item-body{
+          grid-area: itemBody;
+          border-right: 1px solid #B0BEC5;
+
+          .last-post{
+            grid-area: lastPost;
+          }
+        }
+
+        .inner-items-count{
+          grid-area: innerItemsCount;
+
+          ul{
+            display: flex;
+
+            li{
+              text-align: center;
+              flex: 1 0 45%;
+
+              span{
+                display: block;
+              }
+
+              &:first-of-type{
+                margin-left: 0;
+              }
+            }
+          }
+
+          /*div{
+            margin-left: 10px;
+
+            &:first-of-type{
+              margin: 0;
+            }
+          }*/
+
+          /*.topics-count,
+          .posts-count{
+            text-align: center;
+            flex: 1 0 45%;
+
+            span{
+              display: block;
+            }
+          }*/
+
+        }
+      }
     }
-  }*/
-
+  }
 }

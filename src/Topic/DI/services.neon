@@ -19,5 +19,5 @@ postsOverviewControlFactory:
 
 postFormControlFactory:
 	implement: Topic\Components\IPostFormControlFactory
-	parameters: [Account\Account account, Topic\Topic topic]
+	parameters: [Account\Account account = null, Topic\Topic topic]
 	arguments: [%account%, %topic%]

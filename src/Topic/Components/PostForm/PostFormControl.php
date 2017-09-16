@@ -27,7 +27,7 @@ class PostFormControl extends BaseControl
 
 
     public function __construct(
-        Account $account,
+        Account $account = null,
         Topic $topic,
         PostFacade $postFacade
     ) {
@@ -40,8 +40,12 @@ class PostFormControl extends BaseControl
     public function render(): void
     {
         $template = $this->getTemplate();
-        $template->setFile(__DIR__ . '/postForm.latte');
 
+        if ($this->account !== null) {
+            $template->setFile(__DIR__ . '/postForm.latte');
+        } else {
+            $template->setFile(__DIR__ . '/notLoggedIn.latte');
+        }
 
 
         $template->render();
@@ -53,9 +57,11 @@ class PostFormControl extends BaseControl
         $form = new Form;
 
         $form->addTextArea('text', null)
-                ->setRequired('You need to write a message before submitting form.');
+                ->setRequired('You need to write a reply before submitting form.');
 
         $form->addSubmit('send', 'Post Reply');
+
+        $form->addProtection();
 
         $form->onSuccess[] = [$this, 'processReply'];
 
@@ -65,6 +71,11 @@ class PostFormControl extends BaseControl
 
     public function processReply(Form $form, $values)
     {
+        if ($this->account === null) {
+            $this->flashMessage('Sign in to post a reply', FlashMessage::WARNING);
+            return;
+        }
+
         try {
             $post = $this->postFacade->write($this->account, $this->topic, $values['text']);
 
@@ -80,9 +91,9 @@ class PostFormControl extends BaseControl
 interface IPostFormControlFactory
 {
     /**
-     * @param Account $account
+     * @param Account|null $account
      * @param Topic $topic
      * @return PostFormControl
      */
-    public function create(Account $account, Topic $topic): PostFormControl;
+    public function create(Account $account = null, Topic $topic): PostFormControl;
 }

@@ -6,9 +6,15 @@
 
         {foreach $section->categories as $category}
         <div n:class="'item', $iterator->isOdd() ? 'odd' : 'even'">
+            <div class="inner-items-count">
+                <ul>
+                    <li><span>Topics</span> {$category->numberOfTopics}</li>
+                    <li><span>Posts</span> {$category->numberOfPosts}</li>
+                </ul>
+            </div>
+
             <div class="item-body">
                 <div class="title">
-                    <span>Name</span>
                     <a href="{plink :Category:Public:Category:default internalId => (string)$category->id}">{$category->title}</a>
                 </div>
 
@@ -25,11 +31,6 @@
                         forum is empty
                     {/if}
                 </div>
-            </div>
-
-            <div class="inner-items-amount">
-                <span>Topics</span>
-                {$category->numberOfTopics}
             </div>
         </div>
         {/foreach}

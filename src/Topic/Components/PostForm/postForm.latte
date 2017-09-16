@@ -1,7 +1,6 @@
+{extends 'layout.latte'}
 
-<div class="postForm">
-    <h2>New Reply</h2>
-
+{block content}
     <ul n:flashes></ul>
 
     <form n:name="form">
@@ -12,5 +11,4 @@
         <button n:name="send" class="btn btn-primary">Post Reply</button>
 
     </form>
-
-</div>
+{/block}

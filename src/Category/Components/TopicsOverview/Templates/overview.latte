@@ -4,10 +4,15 @@
 
     {foreach $topics as $topic}
     {var $title = sprintf('Created on %s at %s by %s', $topic->createdAt->format('j. F Y'), $topic->createdAt->format('H:i'), $topic->author->name)}
-    <div n:class="'item', $iterator->isOdd() ? 'odd' : 'even'">
+    <div n:class="'item topic', $iterator->isOdd() ? 'odd' : 'even'">
+        <div class="inner-items-count">
+            <ul>
+                <li><span>Posts</span> {$topic->numberOfPosts}</li>
+            </ul>
+        </div>
+
         <div class="item-body">
             <div class="title">
-                <span>Name</span>
                 <a href="{plink :Topic:Public:PostsOverview:default internalId => (string)$topic->id}" title="{$title}">{$topic->title}</a>
             </div>
 
@@ -19,11 +24,6 @@
                 <span>Last post</span>
                 <a href="{plink :Topic:Public:PostsOverview:default internalId => (string)$topic->lastPost->topic->id}">{$topic->lastPost->createdAt|relativeTime}</a> by {$topic->lastPost->author->name}
             </div>
-        </div>
-
-        <div class="inner-items-amount">
-            <span>Posts</span>
-            {$topic->numberOfPosts}
         </div>
     </div>
     {/foreach}
