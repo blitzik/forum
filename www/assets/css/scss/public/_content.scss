@@ -135,7 +135,6 @@ button[type="submit"]{
     display: inline;
     list-style: none;
   }
-
 }
 
 
@@ -258,8 +257,14 @@ button[type="submit"]{
   }
 }
 
+.category-icon{
+  width: 20px;
+  height: 20px;
+}
+
 
 // ----- buttons
+
 
 .btn-create{
   @include button-variant(#fff, #3498db, #3498db);

@@ -67,7 +67,7 @@ class Section
 
     public function isPublic(): bool
     {
-        return $this->isPublic;
+        return $this->isPublic === true;
     }
 
 

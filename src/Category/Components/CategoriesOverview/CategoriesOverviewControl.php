@@ -29,8 +29,12 @@ class CategoriesOverviewControl extends BaseControl
         $q->withSection()
           ->withLastPost(['createdAt', 'topic'])
           ->withLastPostAuthor(['name'])
-          ->withLastPostTopic(['id'])
-          ->orderByPosition();
+          ->withLastPostTopic(['id']);
+
+        if (!$this->user->isLoggedIn()) {
+            $q->onlyPublic();
+        }
+        $q->orderByPosition();
 
         $categoriesResultSet = $this->categoryFacade->findCategories($q);
         $categories = $categoriesResultSet->toArray(AbstractQuery::HYDRATE_ARRAY);

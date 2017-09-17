@@ -73,12 +73,6 @@ class Topic
      * @var Post
      */
     private $lastPost;
-
-    /**
-     * @ORM\Column(name="is_public", type="boolean", nullable=false, unique=false)
-     * @var bool
-     */
-    private $isPublic;
     
      
     public function __construct(
@@ -93,7 +87,6 @@ class Topic
         $this->category->addTopic($this);
         $this->numberOfPosts = 0;
         $this->createdAt = new \DateTimeImmutable('now');
-        $this->isPublic = $category->isPublic();
     }
 
     public function getVersion(): int
@@ -142,12 +135,6 @@ class Topic
     }
 
 
-    public function isPublic(): bool
-    {
-        return $this->category->isPublic() && $this->isPublic;
-    }
-
-
     /*
      * -----------------------------
      * ----- LAST POST GETTERS -----
@@ -180,10 +167,10 @@ class Topic
     }
 
 
-    /*public function getCategoryVersion(): int
+    public function getCategoryVersion(): int
     {
         return $this->category->getVersion();
-    }*/
+    }
 
 
     public function getCategoryTitle(): string

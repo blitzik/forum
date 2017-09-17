@@ -8,15 +8,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\Utils\Validators;
 use blitzik\Routing\Url;
-use Post\Post;
 use Topic\Topic;
+use Post\Post;
 
 /**
  * @ORM\Entity
  * @ORM\Table(
  *     name="category",
  *     indexes={
- *         @Index(name="is_public_position", columns={"is_public", "position"})
+ *         @Index(name="is_public_position", columns={"is_public", "position"}),
+ *         @Index(name="position", columns={"position"})
  *     }
  * )
  */

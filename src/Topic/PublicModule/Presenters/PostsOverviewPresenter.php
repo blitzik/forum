@@ -45,12 +45,6 @@ final class PostsOverviewPresenter extends PublicPresenter
                                 ->byId((int)$internalId)
                             );
 
-        if (!$this->topic->isPublic() and !$this->user->isLoggedIn()) {
-            $this->setMetaTitle(sprintf('Topic %s is not public', $this->topic->getTitle()), false);
-            $this->setView('topicIsNotPublic');
-            return;
-        }
-
         $this->setMetaTitle($this->topic->getTitle());
     }
 

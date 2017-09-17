@@ -10,12 +10,12 @@ use Category\Category;
 
 final class CategoryPresenter extends PublicPresenter
 {
+
     /**
      * @var ITopicsOverviewControlFactory
      * @inject
      */
     public $topicsOverviewControlFactory;
-
 
     /**
      * @var CategoryFacade
@@ -61,6 +61,5 @@ final class CategoryPresenter extends PublicPresenter
 
         return $comp;
     }
-
 
 }
