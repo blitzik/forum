@@ -9,14 +9,23 @@ use Topic\Queries\TopicQuery;
 use Nette\Utils\ArrayHash;
 use Category\Category;
 
-class TopicsOverviewControl extends BaseControl
+class CategoryTopicsOverviewControl extends BaseControl
 {
     /** @var TopicFacade */
     private $topicFacade;
 
 
+    /** @var bool */
+    private $showOnlyPinned = false;
+
+    /** @var bool */
+    private $showOnNoTopics = true;
+
     /** @var Category */
     private $category;
+
+    /** @var string */
+    private $title;
 
 
     public function __construct(
@@ -25,6 +34,26 @@ class TopicsOverviewControl extends BaseControl
     ) {
         $this->category = $category;
         $this->topicFacade = $topicFacade;
+
+        $this->title = sprintf('%s # %s', $this->category->getSectionTitle(), $this->category->getTitle());
+    }
+
+
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+
+    public function onlyPinned(): void
+    {
+        $this->showOnlyPinned = true;
+    }
+
+
+    public function hideOnNoTopics()
+    {
+        $this->showOnNoTopics = false;
     }
 
 
@@ -35,17 +64,36 @@ class TopicsOverviewControl extends BaseControl
         $template->category = $this->category;
 
         $q = new TopicQuery();
-        $q->byCategory($this->category)
-          ->withAuthor(['name'])
+        $q->withAuthor(['name'])
           ->withLastPost(['createdAt'])
           ->withLastPostAuthor(['name'])
           ->withLastPostTopic(['id'])
-          ->orderByDateOfCreation('DESC');
+          ->byCategory($this->category);
+
+        if ($this->showOnlyPinned) {
+            $q->onlyPinned();
+        } else {
+            $q->onlyUnpinned();
+        }
+        $q->orderByDateOfCreation('DESC');
 
         $topicsResultSet = $this->topicFacade->findTopics($q);
         $topics = $topicsResultSet->toArray(AbstractQuery::HYDRATE_ARRAY);
+        $topicsCount = count($topics);
 
-        if (empty($topics)) {
+        if ($topicsCount > 0) {
+            $showTopics = true;
+        } else {
+            if ($this->showOnNoTopics) {
+                $showTopics = true;
+            } else {
+                $showTopics = false;
+            }
+        }
+
+        $template->showTopics = $showTopics;
+        $template->title = $this->title;
+        if ($topicsCount < 1) {
             $template->setFile(__DIR__ . '/Templates/noTopicsFound.latte');
 
         } else {
@@ -59,11 +107,11 @@ class TopicsOverviewControl extends BaseControl
 }
 
 
-interface ITopicsOverviewControlFactory
+interface ICategoryTopicsOverviewControlFactory
 {
     /**
      * @param Category $category
-     * @return TopicsOverviewControl
+     * @return CategoryTopicsOverviewControl
      */
-    public function create(Category $category): TopicsOverviewControl;
+    public function create(Category $category): CategoryTopicsOverviewControl;
 }

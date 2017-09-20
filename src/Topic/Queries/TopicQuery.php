@@ -148,6 +148,26 @@ class TopicQuery extends QueryObject
     }
 
 
+    public function onlyPinned(): self
+    {
+        $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
+            $qb->andWhere('t.isPinned = true');
+        };
+
+        return $this;
+    }
+
+
+    public function onlyUnpinned(): self
+    {
+        $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
+            $qb->andWhere('t.isPinned = false');
+        };
+
+        return $this;
+    }
+
+
     public function orderByDateOfCreation(string $order = 'ASC'): self
     {
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($order) {

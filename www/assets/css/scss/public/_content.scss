@@ -82,6 +82,18 @@ button[type="submit"]{
       font-weight: bold;
     }
 
+    .icons{
+      float: left;
+      display: none;
+
+      img{
+        display: block;
+        width: 32px;
+        height: 32px;
+        margin-bottom: 20px;
+      }
+    }
+
     .inner-items-count{
       //display: none;
       text-align: right;
@@ -271,8 +283,16 @@ button[type="submit"]{
 }
 
 
-@media (min-width: 600px){
+@media (min-width: 500px){
+  .overview .item{
+    .icons{
+      display: block;
+    }
 
+    .item-body{
+      margin-left: 50px;
+    }
+  }
 }
 
 
@@ -328,17 +348,29 @@ button[type="submit"]{
     .overview{
       .item{
         display: grid;
-        grid-template-columns: 2fr 1fr;
+        grid-template-columns: 40px 2fr 1fr;
         grid-column-gap: 10px;
-        grid-template-areas: "itemBody innerItemsCount" "lastPost innerItemsCount";
+        grid-template-areas:
+          "icons itemBody innerItemsCount"
+          "icons lastPost innerItemsCount";
 
         &.topic{
-          grid-template-columns: 2fr 200px;
+          grid-template-columns: 40px 2fr 200px;
+        }
+
+        .icons{
+          grid-area: icons;
+          justify-items: center;
+
+          img{
+            margin: 0 auto 15px auto;
+          }
         }
 
         .item-body{
           grid-area: itemBody;
           border-right: 1px solid #B0BEC5;
+          margin-left: 0;
 
           .last-post{
             grid-area: lastPost;
@@ -364,25 +396,6 @@ button[type="submit"]{
               }
             }
           }
-
-          /*div{
-            margin-left: 10px;
-
-            &:first-of-type{
-              margin: 0;
-            }
-          }*/
-
-          /*.topics-count,
-          .posts-count{
-            text-align: center;
-            flex: 1 0 45%;
-
-            span{
-              display: block;
-            }
-          }*/
-
         }
       }
     }

@@ -42,7 +42,11 @@ class PostFormControl extends BaseControl
         $template = $this->getTemplate();
 
         if ($this->account !== null) {
-            $template->setFile(__DIR__ . '/postForm.latte');
+            if ($this->topic->isLocked()) {
+                $template->setFile(__DIR__ . '/lockedTopic.latte');
+            } else {
+                $template->setFile(__DIR__ . '/postForm.latte');
+            }
         } else {
             $template->setFile(__DIR__ . '/notLoggedIn.latte');
         }

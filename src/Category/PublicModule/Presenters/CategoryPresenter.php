@@ -2,7 +2,7 @@
 
 namespace Category\PublicModule\Presenters;
 
-use Category\Components\ITopicsOverviewControlFactory;
+use Category\Components\ICategoryTopicsOverviewControlFactory;
 use Common\PublicModule\Presenters\PublicPresenter;
 use Category\Facades\CategoryFacade;
 use Category\Queries\CategoryQuery;
@@ -12,7 +12,7 @@ final class CategoryPresenter extends PublicPresenter
 {
 
     /**
-     * @var ITopicsOverviewControlFactory
+     * @var ICategoryTopicsOverviewControlFactory
      * @inject
      */
     public $topicsOverviewControlFactory;
@@ -55,9 +55,21 @@ final class CategoryPresenter extends PublicPresenter
     }
 
 
-    protected function createComponentTopicsOverview()
+    protected function createComponentUnpinnedTopicsOverview()
     {
         $comp = $this->topicsOverviewControlFactory->create($this->category);
+
+        return $comp;
+    }
+
+
+    protected function createComponentPinnedTopicsOverview()
+    {
+        $comp = $this->topicsOverviewControlFactory->create($this->category);
+
+        $comp->setTitle('Pinned topics');
+        $comp->onlyPinned();
+        $comp->hideOnNoTopics();
 
         return $comp;
     }

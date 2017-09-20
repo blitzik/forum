@@ -5,7 +5,7 @@
 categoriesOverviewControlFactory:
 	implement: Category\Components\ICategoriesOverviewControlFactory
 
-topicsOverviewControlFactory:
-	implement: Category\Components\ITopicsOverviewControlFactory
+categoryTopicsOverviewControlFactory:
+	implement: Category\Components\ICategoryTopicsOverviewControlFactory
 	parameters: [Category\Category category]
 	arguments: [%category%]

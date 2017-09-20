@@ -6,11 +6,8 @@
 
         {foreach $section->categories as $category}
         <div n:class="'item', $iterator->isOdd() ? 'odd' : 'even'">
-            <div class="inner-items-count">
-                <ul>
-                    <li><span>Topics</span> {$category->numberOfTopics}</li>
-                    <li><span>Posts</span> {$category->numberOfPosts}</li>
-                </ul>
+            <div class="icons">
+                <img src="{$imagesPath}/folder.svg" alt="folder-ico">
             </div>
 
             <div class="item-body">
@@ -31,6 +28,13 @@
                         forum is empty
                     {/if}
                 </div>
+            </div>
+
+            <div class="inner-items-count">
+                <ul>
+                    <li><span>Topics</span> {$category->numberOfTopics}</li>
+                    <li><span>Posts</span> {$category->numberOfPosts}</li>
+                </ul>
             </div>
         </div>
         {/foreach}

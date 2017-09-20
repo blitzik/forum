@@ -17,7 +17,7 @@ use Post\Post;
  * @ORM\Table(
  *     name="topic",
  *     indexes={
- *         @Index(name="category_created_at", columns={"category", "created_at"})
+ *         @Index(name="category_is_pinned_created_at", columns={"category", "is_pinned", "created_at"})
  *     }
  * )
  */
@@ -73,6 +73,18 @@ class Topic
      * @var Post
      */
     private $lastPost;
+
+    /**
+     * @ORM\Column(name="is_locked", type="boolean", nullable=false, unique=false)
+     * @var bool
+     */
+    private $isLocked;
+
+    /**
+     * @ORM\Column(name="is_pinned", type="boolean", nullable=false, unique=false)
+     * @var bool
+     */
+    private $isPinned;
     
      
     public function __construct(
@@ -87,6 +99,8 @@ class Topic
         $this->category->addTopic($this);
         $this->numberOfPosts = 0;
         $this->createdAt = new \DateTimeImmutable('now');
+        $this->isLocked = false;
+        $this->isPinned = false;
     }
 
     public function getVersion(): int
@@ -132,6 +146,42 @@ class Topic
     public function changeCategory(Category $category): void
     {
         $this->category = $category;
+    }
+
+
+    public function lock(): void
+    {
+        $this->isLocked = true;
+    }
+
+
+    public function unlock(): void
+    {
+        $this->isLocked = false;
+    }
+
+
+    public function isLocked(): bool
+    {
+        return $this->isLocked;
+    }
+
+
+    public function pin(): void
+    {
+        $this->isPinned = true;
+    }
+
+
+    public function unpin(): void
+    {
+        $this->isPinned = false;
+    }
+
+
+    public function isPinned(): bool
+    {
+        return $this->isPinned;
     }
 
 
