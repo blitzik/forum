@@ -11,6 +11,7 @@ extensions:
 	authorization: blitzik\Authorization\DI\AuthorizationExtension
 
 	common: Common\DI\CommonExtension
+	forumRouting: Routing\DI\RoutingExtension
 	setting: Setting\SettingExtension
 	identity: Identity\DI\IdentityExtension
 	account: Account\DI\AccountExtension
