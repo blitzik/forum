@@ -7,7 +7,6 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use blitzik\Routing\Services\UrlGenerator;
 use blitzik\Authorization\Privilege;
-use blitzik\Authorization\Resource;
 use blitzik\Authorization\Role;
 use Account\Account;
 

@@ -12,10 +12,9 @@ interface ITopicWriter
     /**
      * @param Account $author
      * @param Category $category
-     * @param string $title
-     * @param string $text
+     * @param array $values
      * @return Topic
      * @throws TopicCreationFailedException
      */
-    public function write(Account $author, Category $category, string $title, string $text): Topic;
+    public function write(Account $author, Category $category, array $values): Topic;
 }

@@ -176,7 +176,7 @@ final class ForumRoutesLoader implements IRoutesLoader
     {
         $nsNumber = (int)floor($topicId / $this->filesPerNamespace);
         $ns = sprintf('%s_%s', $nsNumber, $nsBase);
-        if (!isset($this->caches[$ns])) {
+        if (!array_key_exists($ns, $this->caches)) {
             $this->caches[$ns] = new Cache(new FileStorage($this->tempDir, $this->journal), $ns);
         }
 

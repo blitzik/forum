@@ -31,12 +31,11 @@ class TopicWriter implements ITopicWriter
     /**
      * @param Account $author
      * @param Category $category
-     * @param string $title
-     * @param string $text
+     * @param array $values
      * @return Topic
      * @throws TopicCreationFailedException
      */
-    public function write(Account $author, Category $category, string $title, string $text): Topic
+    public function write(Account $author, Category $category, array $values): Topic
     {
         try {
             $this->em->beginTransaction();
@@ -49,10 +48,13 @@ class TopicWriter implements ITopicWriter
 
             $this->em->refresh($author);
 
-            $topic = new Topic($title, $author, $category);
+            $topic = new Topic($values['title'], $author, $category);
+            if (array_key_exists('isLocked', $values) and $values['isLocked'] === true) {
+                $topic->toggleLock();
+            }
             $this->em->persist($topic);
 
-            $post = new Post($author, $topic, $text);
+            $post = new Post($author, $topic, $values['text']);
             $this->em->persist($post);
 
             $this->em->flush();
@@ -63,6 +65,8 @@ class TopicWriter implements ITopicWriter
             $shortTopicUrl = $topic->createUrl(true);
             $shortTopicUrl->setRedirectTo($topicUrl);
             $this->em->persist($shortTopicUrl);
+
+            $topic->setUrl($topicUrl);
 
             $this->em->flush();
             $this->em->commit();

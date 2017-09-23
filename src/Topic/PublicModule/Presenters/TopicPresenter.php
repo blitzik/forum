@@ -2,7 +2,7 @@
 
 namespace Topic\PublicModule\Presenters;
 
-use Topic\Components\ITopicCreationFormControlFactory;
+use Topic\Components\ITopicFormControlFactory;
 use Common\PublicModule\Presenters\PublicPresenter;
 use Category\Facades\CategoryFacade;
 use Category\Queries\CategoryQuery;
@@ -12,7 +12,7 @@ use Topic\Topic;
 final class TopicPresenter extends PublicPresenter
 {
     /**
-     * @var ITopicCreationFormControlFactory
+     * @var ITopicFormControlFactory
      * @inject
      */
     public $topicCreationFormFactory;
@@ -75,5 +75,4 @@ final class TopicPresenter extends PublicPresenter
 
         return $comp;
     }
-
 }

@@ -55,7 +55,7 @@ class Account implements IIdentity
     private $password;
 
     /**
-     * @ORM\ManyToOne(targetEntity="blitzik\Authorization\Role")
+     * @ORM\ManyToOne(targetEntity="blitzik\Authorization\Role", fetch="EAGER")
      * @ORM\JoinColumn(name="role", referencedColumnName="id", nullable=false)
      * @var Role
      */
@@ -218,12 +218,4 @@ class Account implements IIdentity
         return [$this->role];
     }
 
-
-    // ----- IRole
-
-
-    function getRoleId(): string
-    {
-        return $this->role->getName();
-    }
 }

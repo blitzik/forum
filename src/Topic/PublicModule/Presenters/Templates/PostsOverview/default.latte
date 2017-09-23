@@ -3,7 +3,13 @@
     <h2>{$topic->getTitle()}</h2>
     <p>{$topic->getSectionTitle()} > <a href="{plink :Category:Public:Category:default internalId => (string)$topic->getCategoryId()}">{$topic->getCategoryTitle()}</a></p>
 
-    <a n:href="this#new-post">+ add post</a>
+    <ul n:flashes></ul>
+
+    <ul>
+        <li><a n:href="this#new-post">+ add post</a></li>
+        <li n:if="$user->isAllowed($topic->getResourceId(), 'lock')"><a href="{link toggleLock!}">{if $topic->isLocked()}unlock{else}lock{/if} topic</a></li>
+        <li n:if="$user->isAllowed($topic->getResourceId(), 'pin')"><a href="{link togglePin!}">{if $topic->isPinned()}unpin{else}pin{/if} topic</a></li>
+    </ul>
 
     {control postsOverview}
 

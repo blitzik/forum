@@ -2,8 +2,8 @@
 
 namespace Topic\Components;
 
-use Common\Components\FlashMessages\FlashMessage;
 use Topic\Exceptions\TopicCreationFailedException;
+use Common\Components\FlashMessages\FlashMessage;
 use Common\Components\BaseControl;
 use Nette\Application\UI\Form;
 use Topic\Facades\TopicFacade;
@@ -11,7 +11,7 @@ use Category\Category;
 use Account\Account;
 use Topic\Topic;
 
-class TopicCreationFormControl extends BaseControl
+class TopicFormControl extends BaseControl
 {
     public $onSuccessfulCreation = [];
 
@@ -41,8 +41,9 @@ class TopicCreationFormControl extends BaseControl
     public function render(): void
     {
         $template = $this->getTemplate();
-        $template->setFile(__DIR__ . '/topicCreationForm.latte');
+        $template->setFile(__DIR__ . '/topicForm.latte');
 
+        $template->displayLockOption = $this->authorizator->isAllowed($this->account, Topic::RESOURCE_ID, 'lock');
 
 
         $template->render();
@@ -57,8 +58,14 @@ class TopicCreationFormControl extends BaseControl
                 ->setRequired('Title of your topic cannot be blank')
                 ->addRule(Form::MAX_LENGTH, 'Title is too long. Title of topic cannot be longer than %d characters', Topic::LENGTH_TITLE);
 
-        $form->addTextArea('post', 'Text', 25, 8)
+        $form->addTextArea('text', 'Text', 25, 8)
                 ->setRequired('Text cannot be blank');
+
+        if ($this->authorizator->isAllowed($this->account, Topic::RESOURCE_ID, 'lock')) {
+            $form->addCheckbox('isLocked', 'Lock topic')
+                    ->setDefaultValue(false);
+        }
+
 
         $form->addSubmit('save', 'Create topic');
 
@@ -72,7 +79,7 @@ class TopicCreationFormControl extends BaseControl
     public function processForm(Form $form, $values)
     {
         try {
-            $newTopic = $this->topicFacade->write($this->account, $this->category, $values['title'], $values['post']);
+            $newTopic = $this->topicFacade->write($this->account, $this->category, (array)$values);
 
             $this->onSuccessfulCreation($newTopic);
 
@@ -85,12 +92,12 @@ class TopicCreationFormControl extends BaseControl
 }
 
 
-interface ITopicCreationFormControlFactory
+interface ITopicFormControlFactory
 {
     /**
      * @param Account $account
      * @param Category $category
-     * @return TopicCreationFormControl
+     * @return TopicFormControl
      */
-    public function create(Account $account, Category $category): TopicCreationFormControl;
+    public function create(Account $account, Category $category): TopicFormControl;
 }

@@ -221,7 +221,8 @@ button[type="submit"] {
 
 .submit-button {
   display: block;
-  width: 100%; }
+  width: 100%;
+  margin-top: 25px; }
 
 .info-box {
   border: 1px solid #78909c;

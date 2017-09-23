@@ -19,7 +19,7 @@
         <div class="body">
             <div class="detail">
                 <ul>
-                    <li title="Created {$post->createdAt|date:"H:i, M-d-Y"}">Created {$post->createdAt|relativeTime}</li>
+                    <li title="Created at {$post->createdAt|date:"H:i, M-d-Y"}">Created {$post->createdAt|relativeTime}</li>
                     <li n:if="$iterator->isFirst()">{$topic->getNumberOfPosts()} replies</li>
                 </ul>
             </div>

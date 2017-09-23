@@ -3,6 +3,7 @@
 namespace Topic\Facades;
 
 use Topic\Exceptions\TopicCreationFailedException;
+use Topic\Exceptions\TopicNotFoundException;
 use Topic\Services\Writers\ITopicWriter;
 use Kdyby\Doctrine\EntityManager;
 use Kdyby\Doctrine\ResultSet;
@@ -54,9 +55,41 @@ class TopicFacade
      * @return Topic
      * @throws TopicCreationFailedException
      */
-    public function write(Account $author, Category $category, string $title, string $text): Topic
+    public function write(Account $author, Category $category, array $values): Topic
     {
-        return $this->topicWriter->write($author, $category, $title, $text);
+        return $this->topicWriter->write($author, $category, $values);
+    }
+
+
+    /**
+     * @param int $topicId
+     * @throws TopicNotFoundException
+     */
+    public function toggleLock(int $topicId): void
+    {
+        /** @var Topic $topic */
+        $topic = $this->em->find(Topic::class, $topicId);
+        if ($topic === null) {
+            throw new TopicNotFoundException;
+        }
+
+        $topic->toggleLock();
+
+        $this->em->flush();
+    }
+
+
+    public function togglePin(int $topicId): void
+    {
+        /** @var Topic $topic */
+        $topic = $this->em->find(Topic::class, $topicId);
+        if ($topic === null) {
+            throw new TopicNotFoundException;
+        }
+
+        $topic->togglePin();
+
+        $this->em->flush();
     }
 
 }

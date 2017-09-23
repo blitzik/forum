@@ -3,6 +3,7 @@
 namespace Topic;
 
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
+use blitzik\Authorization\Authorizator\IResource;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
@@ -21,12 +22,14 @@ use Post\Post;
  *     }
  * )
  */
-class Topic
+class Topic implements IResource
 {
     use Identifier;
 
 
     const LENGTH_TITLE = 150;
+
+    const RESOURCE_ID = 'Topic';
 
 
     /**
@@ -54,6 +57,13 @@ class Topic
      * @var string
      */
     private $title;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="blitzik\Routing\Url")
+     * @ORM\JoinColumn(name="url", referencedColumnName="id", nullable=true)
+     * @var Url
+     */
+    private $url;
 
     /**
      * @ORM\Column(name="created_at", type="datetime_immutable", nullable=false, unique=false)
@@ -103,6 +113,13 @@ class Topic
         $this->isPinned = false;
     }
 
+
+    public function setUrl(Url $url): void
+    {
+        $this->url = $url;
+    }
+
+
     public function getVersion(): int
     {
         return $this->version;
@@ -149,15 +166,9 @@ class Topic
     }
 
 
-    public function lock(): void
+    public function toggleLock(): void
     {
-        $this->isLocked = true;
-    }
-
-
-    public function unlock(): void
-    {
-        $this->isLocked = false;
+        $this->isLocked = !$this->isLocked;
     }
 
 
@@ -167,15 +178,9 @@ class Topic
     }
 
 
-    public function pin(): void
+    public function togglePin(): void
     {
-        $this->isPinned = true;
-    }
-
-
-    public function unpin(): void
-    {
-        $this->isPinned = false;
+        $this->isPinned = !$this->isPinned;
     }
 
 
@@ -232,6 +237,21 @@ class Topic
     public function getSectionTitle(): string
     {
         return $this->category->getSectionTitle();
+    }
+
+
+    // -----
+
+
+    public function getOwnerId(): int
+    {
+        return $this->author->getId();
+    }
+
+
+    function getResourceId(): string
+    {
+        return self::RESOURCE_ID;
     }
 
 

@@ -6,8 +6,8 @@
 - Topic\Facades\TopicFacade
 
 
-topicCreationFormControlFactory:
-	implement: Topic\Components\ITopicCreationFormControlFactory
+topicFormControlFactory:
+	implement: Topic\Components\ITopicFormControlFactory
 	parameters: [Account\Account account, Category\Category category]
 	arguments: [%account%, %category%]
 

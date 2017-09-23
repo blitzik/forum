@@ -2,16 +2,17 @@
 
 namespace Topic\Fixtures;
 
-use Account\Account;
 use blitzik\Authorization\Authorizator\AuthorizationRulesGenerator;
-use Category\Category;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use blitzik\Routing\Services\UrlGenerator;
 use Category\Fixtures\CategoryFixture;
 use Account\Fixtures\AccountFixture;
+use blitzik\Authorization\Privilege;
 use blitzik\Authorization\Resource;
+use Category\Category;
+use Account\Account;
 use Topic\Topic;
 use Post\Post;
 
@@ -20,7 +21,7 @@ class TopicFixture extends AbstractFixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $this->loadDefaultUrls($manager);
-        //$this->loadDefaultAuthorizatorRules($manager);
+        $this->loadDefaultAuthorizatorRules($manager);
         $this->loadTestingTopics($manager);
 
         $manager->flush();
@@ -36,7 +37,19 @@ class TopicFixture extends AbstractFixture implements DependentFixtureInterface
 
     private function loadDefaultAuthorizatorRules(ObjectManager $manager)
     {
-        $arg = new AuthorizationRulesGenerator($manager); // todo
+        $arg = new AuthorizationRulesGenerator($manager);
+
+        $privilegeLock = new Privilege('lock');
+        $manager->persist($privilegeLock);
+        $this->setReference('privilege_lock', $privilegeLock);
+
+        $privilegePin = new Privilege('pin');
+        $manager->persist($privilegePin);
+        $this->setReference('privilege_pin', $privilegePin);
+
+        $arg->addResource(new Resource(Topic::RESOURCE_ID))
+            ->addDefinition($privilegeLock, $this->getReference('role_moderator'))
+            ->addDefinition($privilegePin, $this->getReference('role_moderator'));
     }
 
 
@@ -80,6 +93,8 @@ class TopicFixture extends AbstractFixture implements DependentFixtureInterface
             $shortUrl = $topic->createUrl(true);
             $shortUrl->setRedirectTo($topicUrl);
             $manager->persist($shortUrl);
+
+            $topic->setUrl($topicUrl);
         }
     }
 

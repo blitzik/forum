@@ -87,6 +87,8 @@ class CategoryFixture extends AbstractFixture
             $shortUrl = $category->createUrl(true);
             $shortUrl->setRedirectTo($categoryUrl);
             $manager->persist($shortUrl);
+
+            $category->setUrl($categoryUrl);
         }
     }
 

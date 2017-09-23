@@ -50,6 +50,13 @@ class Category
     private $title;
 
     /**
+     * @ORM\ManyToOne(targetEntity="blitzik\Routing\Url")
+     * @ORM\JoinColumn(name="url", referencedColumnName="id", nullable=true)
+     * @var Url
+     */
+    private $url;
+
+    /**
      * @ORM\Column(name="description", type="string", length=500, nullable=true, unique=false)
      * @var string
      */
@@ -98,6 +105,12 @@ class Category
         $this->section = $section;
         $this->position = 0;
         $this->isPublic = $section->isPublic();
+    }
+
+
+    public function setUrl(Url $url): void
+    {
+        $this->url = $url;
     }
 
 
